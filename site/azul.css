@@ -373,3 +373,28 @@ body::before{background:radial-gradient(900px 520px at 90% -8%,rgba(30,167,255,.
 .sl-modelo.m-r15{-webkit-text-stroke:1.5px #4CBDFF;text-shadow:0 0 24px rgba(30,167,255,.35)}
 .sl-modelo.m-r3{-webkit-text-stroke:1.5px #9AA3B2}
 @keyframes sl-modelo{to{opacity:1;transform:none}}
+
+/* ---------- carregamento: moto menor, logo grande em destaque ---------- */
+#sandim-loader{gap:clamp(18px,4cqw,40px)}
+#sandim-loader .sl-track{height:clamp(110px,24cqw,170px)}
+#sandim-loader .sl-rider{width:clamp(150px,40cqw,240px)}
+#sandim-loader .sl-word{width:min(86cqw,560px)}
+#sandim-loader .sl-word svg{filter:drop-shadow(0 6px 30px rgba(30,167,255,.35)) drop-shadow(0 2px 2px rgba(0,0,0,.35));
+  transform:scale(.94);transition:clip-path .8s cubic-bezier(.7,0,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
+#sandim-loader.is-idle .sl-word svg,#sandim-loader.is-exit .sl-word svg,#sandim-loader.is-cobre .sl-word svg{transform:none}
+.sl-modelo{font-size:clamp(46px,13cqw,104px)}
+@media (min-width:721px){
+  #sandim-loader .sl-track{height:clamp(120px,11cqw,170px)}
+  #sandim-loader .sl-rider{width:clamp(180px,15cqw,250px)}
+  #sandim-loader .sl-word{width:clamp(420px,44cqw,720px)}
+}
+
+/* rolagem suave só onde o código pede (setas, "Role", carrosséis); pulos de página são imediatos */
+html{scroll-behavior:auto}
+/* ---------- toque (celular): sem efeitos de "passar o mouse" nos cards — um toque já abre ---------- */
+@media (hover:none){
+  .card .ft .alt{display:none}
+  .card:hover,.card:hover .ft{transform:none}
+  .card:hover .ft .alt{opacity:0}
+  .card .ver-prod{display:none}
+}

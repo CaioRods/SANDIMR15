@@ -155,6 +155,21 @@
     if (it) it.q += q; else cart.push({ id: id, h: p.h, t: p.t, v: v.t, p: v.p, img: v.img || p.img[0], q: q });
     salvar(); setTimeout(abrirCarrinho, origem && !Cinema.calmo ? 650 : 0);
   }
+  // rolagem imediata em qualquer navegador (o html tem scroll-behavior:smooth; o Safari ignora 'instant')
+  function rolaJa(y) {
+    var h = document.documentElement, antes = h.style.scrollBehavior;
+    h.style.scrollBehavior = 'auto'; window.scrollTo(0, y); h.style.scrollBehavior = antes;
+  }
+  // rolagem imediata em qualquer navegador (o html tem scroll-behavior:smooth; o Safari ignora 'instant')
+  function rolaJa(y) {
+    var h = document.documentElement, antes = h.style.scrollBehavior;
+    h.style.scrollBehavior = 'auto'; window.scrollTo(0, y); h.style.scrollBehavior = antes;
+  }
+  // rolagem imediata em qualquer navegador (o html tem scroll-behavior:smooth; o Safari ignora 'instant')
+  function rolaJa(y) {
+    var h = document.documentElement, antes = h.style.scrollBehavior;
+    h.style.scrollBehavior = 'auto'; window.scrollTo(0, y); h.style.scrollBehavior = antes;
+  }
   /* ---------- card: a foto sobe, gira e pousa na galeria do produto ---------- */
   var pularTransicao = false, vooAtivo = false, aposDesenhar = null;
   // termina a animação pelo evento ou pelo tempo (se a aba estiver em segundo plano o evento não chega)
@@ -180,7 +195,8 @@
     ], { duration: 260, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' });
     aoAcabar(sobe, 260, function () {
       document.body.classList.add('chegando');
-      aposDesenhar = function () {
+      aposDesenhar = function mede() {
+        if (window.scrollY > 2 && (mede.n = (mede.n || 0) + 1) < 15) { rolaJa(0); requestAnimationFrame(mede); return; }
         var caixa = document.querySelector('.galeria .principal');
         var alvo = document.querySelector('#trilho img') || caixa;
         var t = alvo ? alvo.getBoundingClientRect() : { left: 0, top: 80, width: window.innerWidth, height: window.innerWidth };
@@ -703,7 +719,7 @@
     aoAcabar(sai, 200, function () {
       var y = window.scrollY;
       desenha();
-      var topo = $('.col-topo'); if (topo && y > topo.offsetHeight) window.scrollTo({ top: topo.offsetHeight - 10, behavior: 'instant' });
+      var topo = $('.col-topo'); if (topo && y > topo.offsetHeight) rolaJa(topo.offsetHeight - 10);
       sai.cancel();
       app.animate([{ opacity: 0, transform: 'translateX(' + (dir * 56) + 'px)' }, { opacity: 1, transform: 'translateX(0)' }], { duration: 520, easing: 'cubic-bezier(.22,1,.36,1)' });
       var g = $('#lista');
@@ -728,7 +744,7 @@
     else { app.innerHTML = home(); bnLiga(); }
     document.body.dataset.rota = r[0] || 'home';
     document.querySelectorAll('.tabbar [data-tab]').forEach(function (t) { t.classList.toggle('on', (t.dataset.tab === 'home' && !r[0]) || (t.dataset.tab === 'produtos' && r[0] === 'c' && r[1] === 'produtos')); });
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    rolaJa(0);
     Cinema.scan(app);
     if (!r[0] && loaderAcabou) Cinema.heroPlay();
     var t = r[0] === 'p' && porH[r[1]] ? porH[r[1]].t + ' · ' : r[0] === 'c' ? (r[1] === 'produtos' ? 'Produtos' : ((CATS.find(function (c) { return c.h === r[1]; }) || {}).n || '')) + ' · ' : '';
