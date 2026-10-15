@@ -316,3 +316,35 @@ body::before{background:radial-gradient(900px 520px at 90% -8%,rgba(30,167,255,.
 /* logo oficial do WhatsApp no botão */
 .whats svg{fill:#fff;stroke:none;width:28px;height:28px}
 @media (max-width:720px){.whats svg{width:25px;height:25px}}
+
+/* ===== correções: nada cortando ===== */
+/* faixa de categorias: espaço para o anel e o clique; entra de lado (não por baixo da borda) */
+.catalogo-nav{padding-block:20px 10px;scroll-padding-inline:var(--gut)}
+.catalogo-nav .cn.rv{transform:translateX(18px)}
+.catalogo-nav .cn.rv.rv-in{transform:none}
+.cn:hover .bola{transform:none}
+/* carrossel (Mais vendidos, Lançamentos…): só anda na horizontal, sombra e foto inteiras */
+@media (max-width:720px){
+  .grade.carrossel{overflow-y:hidden;padding-block:12px 26px;margin-block:-12px -26px;overscroll-behavior-y:auto;touch-action:pan-x pan-y}
+  .grade.carrossel .card.rv{transform:translateX(24px)}
+  .grade.carrossel .card.rv.rv-in{transform:none}
+  .grade.carrossel .card,.grade.carrossel .card:hover,.grade.carrossel .card:active{transform:none}
+}
+@media (hover:hover){.grade.carrossel .card:hover{transform:none}}
+/* moto do banner: camada própria, desliza sem repintar a sombra */
+.hero-moto{will-change:translate}
+
+/* destaque da garagem: botões separados e com hierarquia */
+.destaque .ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.destaque .ctas .btn{min-width:200px}
+.destaque .ctas .btn.vidro{background:#fff;color:var(--azul-escuro);border:1.5px solid rgba(0,147,226,.35);box-shadow:none}
+.destaque .ctas .btn.vidro::after{content:"→";margin-left:4px;transition:transform .25s}
+.destaque .ctas .btn.vidro:hover{background:var(--azul-fundo);border-color:var(--azul)}
+.destaque .ctas .btn.vidro:hover::after{transform:translateX(3px)}
+@media (max-width:720px){.destaque .ctas{flex-direction:column;align-items:stretch}.destaque .ctas .btn{width:100%;min-width:0}}
+
+/* mosaico: no bloco azul, foto à direita e texto à esquerda (texto nunca sob a foto) */
+.mos.g{justify-content:flex-end}
+.mos.g b,.mos.g small{position:relative;z-index:1;max-width:48%;text-shadow:0 2px 10px rgba(0,40,90,.35)}
+.mos.g .ft{width:auto;height:72%;top:50%;right:5%;translate:0 -50%}
+@media (max-width:720px){.mos.g .ft{height:calc(100% - 28px)}}

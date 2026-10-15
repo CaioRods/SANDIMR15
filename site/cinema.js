@@ -113,9 +113,19 @@
 
   /* ---------- paralaxe e cabeçalho ---------- */
   var ultimoY = window.scrollY, tic = false;
+  // moto do banner: segue a rolagem com suavização (sem ler layout a cada quadro)
+  var motoAlvo = 0, motoAtual = 0, motoAnda = false, motoEl = null;
+  function motoPasso() {
+    if (!motoEl || !motoEl.isConnected) motoEl = document.querySelector('.hero .hero-moto');
+    if (!motoEl) { motoAnda = false; return; }
+    motoAtual += (motoAlvo - motoAtual) * .14;
+    if (Math.abs(motoAlvo - motoAtual) < .1) motoAtual = motoAlvo;
+    if (motoAtual < 900) motoEl.style.translate = '0 ' + motoAtual.toFixed(2) + 'px';
+    if (motoAtual !== motoAlvo) requestAnimationFrame(motoPasso); else motoAnda = false;
+  }
   function rolagem() {
     var y = window.scrollY;
-    $$('.hero .hero-moto').forEach(function (m) { var h = m.closest('.hero'); if (y < h.offsetHeight + 200) m.style.translate = '0 ' + (y * .18) + 'px'; });
+    motoAlvo = y * .18; if (!motoAnda) { motoAnda = true; requestAnimationFrame(motoPasso); }
     $$('.hero .sl-scene').forEach(function (s) { s.style.translate = '0 ' + (y * .08) + 'px'; });
     var hdr = document.getElementById('topo');
     if (hdr && window.innerWidth <= 720) {
