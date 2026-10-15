@@ -61,6 +61,36 @@ for h, p in prods.items():
     })
 json.dump({'colecoes': cols, 'produtos': out}, open('site/catalogo.json', 'w', encoding='utf8'), ensure_ascii=False, separators=(',', ':'))
 from collections import Counter
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
+import os, runpy; os.environ['SO_CATALOGO'] = '1'
+try: runpy.run_path('build/leve3.py')
+except SystemExit: pass
 print(len(out), 'produtos;', Counter(x for p in out for x in p['moto']))
 print({c: sum(1 for p in out if c in p['col']) for c in cols})
 print([p['t'] for p in out[:8]])

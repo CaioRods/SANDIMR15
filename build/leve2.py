@@ -69,4 +69,5 @@ s = open('build/site.py', encoding='utf8').read()
 if 'leve2' not in s:
     s = s.replace("print('site ok'", "import runpy; runpy.run_path('build/leve2.py')\nprint('site ok'", 1)
     open('build/site.py', 'w', encoding='utf8').write(s)
+import runpy as _r; _r.run_path('build/leve3.py')
 print('leve2 ok')

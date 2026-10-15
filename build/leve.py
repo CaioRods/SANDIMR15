@@ -88,7 +88,8 @@ patch('site/app.js', [
     if (rolou) return; rolou = true;
     requestAnimationFrame(function () {
       rolou = false;
-      var min = window.scrollY > 80;
+      // folga maior que a diferença de altura do cabeçalho (≈50px): evita o pisca-pisca ao rolar perto do limite
+      var min = hdr.classList.contains('min') ? window.scrollY > 20 : window.scrollY > 120;
       if (min !== hdr.classList.contains('min')) { hdr.classList.toggle('min', min); altHdr(); }
       if (checaBuy) checaBuy();
     });
