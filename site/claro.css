@@ -324,3 +324,24 @@ body.chegando .prod .compra,body.chegando .migalha,body.chegando .miniaturas{opa
   .maq .rod b{font-size:16px;margin-bottom:2px}
   .maq .seta{display:none}
 }
+
+
+/* ===== voltar + pouso ===== */
+.topo-prod,.topo-col{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:18px}
+.topo-col{padding-top:0;margin-bottom:10px}
+.topo-prod .migalha,.topo-col .migalha{margin:0;padding:0}
+.voltar{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--linha);background:#fff;border-radius:999px;padding:8px 16px 8px 10px;font-family:var(--label);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta);box-shadow:var(--sombra-1);cursor:pointer;transition:transform .25s,box-shadow .25s,color .25s}
+.voltar svg,.voltar-foto svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.voltar:hover{color:var(--azul);box-shadow:var(--sombra-2)}
+.voltar:hover svg{transform:translateX(-3px)}
+.voltar:active{transform:scale(.96)}
+.voltar-foto{display:none}
+.trilho img{box-sizing:border-box}
+@media (max-width:720px){
+  .topo-prod{display:none}
+  .prod{padding-top:0}
+  .voltar-foto{display:grid;place-items:center;position:absolute;top:12px;left:12px;z-index:3;width:42px;height:42px;border-radius:50%;border:1px solid var(--linha);background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--tinta);box-shadow:var(--sombra-1);cursor:pointer}
+  .voltar-foto:active{transform:scale(.92)}
+  .topo-col .migalha{display:none}
+  .voltar{padding:7px 14px 7px 8px;font-size:12px}
+}

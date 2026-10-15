@@ -84,6 +84,8 @@
     if (Cinema.calmo || !ft || !foto || !ft.animate) { location.hash = href; return; }
     vooAtivo = true;
     var r = ft.getBoundingClientRect();
+    var hp = /^#\/p\/(.+)/.exec(href), prod = hp && porH[hp[1]];
+    var grande = new Image(); if (prod) grande.src = img(prod.img[0], 900);
     var voo = document.createElement('div');
     voo.className = 'card-voo';
     voo.innerHTML = '<img src="' + (foto.currentSrc || foto.src) + '" alt="">';
@@ -98,12 +100,15 @@
     aoAcabar(sobe, 260, function () {
       document.body.classList.add('chegando');
       aposDesenhar = function () {
-        var alvo = document.querySelector('.galeria .principal');
+        var caixa = document.querySelector('.galeria .principal');
+        var alvo = document.querySelector('#trilho img') || caixa;
         var t = alvo ? alvo.getBoundingClientRect() : { left: 0, top: 80, width: window.innerWidth, height: window.innerWidth };
+        var trocaFoto = function () { var im = voo.querySelector('img'); if (grande.complete && grande.naturalWidth) im.src = grande.src; };
+        if (grande.complete) trocaFoto(); else grande.onload = trocaFoto;
         var dx = (t.left + t.width / 2) - (r.left + r.width / 2);
         var dy = (t.top + t.height / 2) - (r.top + r.height / 2);
         var esc = t.width / r.width;
-        var raio = alvo ? getComputedStyle(alvo).borderRadius : '0px';
+        var raio = caixa ? getComputedStyle(caixa).borderRadius : '0px';
         var dur = window.innerWidth <= 720 ? 760 : 880;
         var voa = voo.animate([
           { transform: P + 'translate3d(0,-12px,0) rotateY(0deg) scale(1.05)', borderRadius: '18px', boxShadow: '0 30px 60px rgba(15,23,42,.20)' },
@@ -111,9 +116,15 @@
           { transform: P + 'translate3d(' + dx + 'px,' + dy + 'px,0) rotateY(360deg) scale(' + esc + ')', borderRadius: (parseFloat(raio) / esc) + 'px', boxShadow: '0 0 0 rgba(15,23,42,0)' }
         ], { duration: dur, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'forwards' });
         aoAcabar(voa, dur, function () {
-          document.body.classList.remove('chegando');
-          var some = voo.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, easing: 'ease-out', fill: 'forwards' });
-          aoAcabar(some, 220, function () { voo.remove(); vooAtivo = false; });
+          var foto = document.querySelector('#trilho img');
+          var fim = function () {
+            if (fim.feito) return; fim.feito = true;
+            document.body.classList.remove('chegando');
+            var some = voo.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: 'ease-out', fill: 'forwards' });
+            aoAcabar(some, 180, function () { voo.remove(); vooAtivo = false; });
+          };
+          if (!foto || (foto.complete && foto.naturalWidth)) fim();
+          else { foto.addEventListener('load', fim, { once: true }); setTimeout(fim, 700); }
         });
       };
       pularTransicao = true;
@@ -304,7 +315,7 @@
       var ps = daColecao(k.h), foto = ps[0] ? img(ps[0].img[0], 160) : '', moto = k.h === 'acessorios' || k.h === 'acessorios-r3';
       return '<a class="cn' + (moto ? ' moto' : '') + (k.h === h ? ' on' : '') + '" href="#/c/' + k.h + '"' + (k.h === h ? ' aria-current="page"' : '') + '><span class="bola">' + (moto ? '<b>' + k.n + '</b>' : '<img src="' + foto + '" alt="" loading="lazy">') + '</span><span>' + (moto ? 'Linha ' + k.n : k.n) + '</span></a>';
     }).join('') + '</nav>';
-    app.innerHTML = '<section class="col-topo">' + (fundo ? '<div class="fundo" style="background-image:url(' + fundo + ')"></div>' : '') + '<div class="wrap"><div class="migalha"><a href="#/">Início</a> / ' + tit + '</div><div class="col-tit"><h1>' + tit + '</h1><span class="qtd-badge">' + base.length + ' produtos</span></div><p>' + (c.d || '') + '</p></div></section>' +
+    app.innerHTML = '<section class="col-topo">' + (fundo ? '<div class="fundo" style="background-image:url(' + fundo + ')"></div>' : '') + '<div class="wrap"><div class="topo-col"><button class="voltar" type="button" data-voltar><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Voltar</button><div class="migalha"><a href="#/">Início</a> / ' + tit + '</div></div><div class="col-tit"><h1>' + tit + '</h1><span class="qtd-badge">' + base.length + ' produtos</span></div><p>' + (c.d || '') + '</p></div></section>' +
       '<div class="wrap">' + nav + '<div class="filtros"><div class="seg" id="chips" role="group" aria-label="Filtrar por moto">' +
       ['Todas', 'R15', 'R3'].map(function (m, i) { return '<button type="button" class="' + (i ? '' : 'on') + '" data-m="' + m + '" aria-pressed="' + (i ? 'false' : 'true') + '">' + (i ? m : 'Todas') + '</button>'; }).join('') +
       '</div><label class="ordem" for="ordem"><span class="sr">Ordenar</span><select id="ordem"><option value="rel">Mais vendidos</option><option value="menor">Menor preço</option><option value="maior">Maior preço</option><option value="novo">Mais recentes</option></select></label></div>' +
@@ -340,8 +351,8 @@
     var v = p.v.find(function (x) { return x.ok; }) || p.v[0], qtd = 1, fotos = p.img.slice();
     var temOpcao = p.op.length && p.v.length > 1;
     var rel = D.produtos.filter(function (x) { return x !== p && x.moto.some(function (m) { return p.moto.indexOf(m) > -1; }) && Object.keys(x.col).some(function (c) { return c in p.col && ['mais-vendidos', 'news', 'ofertas-da-semana', 'acessorios'].indexOf(c) < 0; }); }).slice(0, 8);
-    app.innerHTML = '<div class="wrap"><div class="migalha" style="color:var(--apoio);padding-top:20px"><a href="#/">Início</a> / <a href="#/c/' + (p.moto[0] === 'R3' ? 'acessorios-r3' : 'acessorios') + '">Linha ' + p.moto[0] + '</a> / ' + esc(p.t) + '</div>' +
-      '<div class="prod"><div class="galeria"><div class="miniaturas" id="minis"></div><div class="principal"><span class="foto-cont" id="foto-cont"></span><div class="trilho" id="trilho"></div><div class="pontos" id="pontos"></div></div></div>' +
+    app.innerHTML = '<div class="wrap"><div class="topo-prod"><button class="voltar" type="button" data-voltar><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Voltar</button><div class="migalha"><a href="#/">Início</a> / <a href="#/c/' + (p.moto[0] === 'R3' ? 'acessorios-r3' : 'acessorios') + '">Linha ' + p.moto[0] + '</a> / ' + esc(p.t) + '</div></div>' +
+      '<div class="prod"><div class="galeria"><div class="miniaturas" id="minis"></div><div class="principal"><button class="voltar-foto" type="button" data-voltar aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><span class="foto-cont" id="foto-cont"></span><div class="trilho" id="trilho"></div><div class="pontos" id="pontos"></div></div></div>' +
       '<div class="compra"><div class="selos">' + p.moto.map(function (m) { return '<span class="selo ' + m + '">' + (m === 'SBM' ? 'SBM 250s' : 'Yamaha ' + m) + '</span>'; }).join('') + '<small>Compatibilidade</small></div>' +
       '<h1>' + esc(p.t) + '</h1>' + (p.anos ? '<p class="ano-destaque">Serve nos anos <b>' + p.anos + '</b></p>' : '') + '<div class="precos" id="precos"></div>' +
       (temOpcao ? '<div class="opcao"><h3>' + esc(p.op[0]) + ': <b id="vnome"></b></h3><div class="variantes" id="vars"></div></div>' : '') +
@@ -407,9 +418,16 @@
   }
 
   /* ---------- rotas ---------- */
-  var rotaAnterior = location.hash;
+  var rotaAnterior = location.hash, passos = 0;
+  function voltar() {
+    if (passos > 0) { passos -= 2; history.back(); return; }
+    var p = /^#\/p\/(.+)/.exec(location.hash), prod = p && porH[p[1]];
+    location.hash = prod ? '#/c/' + (prod.moto[0] === 'R3' ? 'acessorios-r3' : 'acessorios') : '#/';
+  }
+  document.addEventListener('click', function (e) { if (e.target.closest('[data-voltar]')) { e.preventDefault(); voltar(); } });
   function idxCat(hash) { var m = /^#\/c\/([^/]+)/.exec(hash || ''); if (!m) return -1; var k = CATS.findIndex(function (c) { return c.h === m[1]; }); return k < 0 ? 99 : k; }
   function rota() {
+    passos++;
     var de = idxCat(rotaAnterior), para = idxCat(location.hash);
     rotaAnterior = location.hash;
     if (pularTransicao) { pularTransicao = false; desenha(); return; }
@@ -422,7 +440,7 @@
     aoAcabar(sai, 200, function () {
       var y = window.scrollY;
       desenha();
-      var topo = $('.col-topo'); if (topo && y > topo.offsetHeight) window.scrollTo(0, topo.offsetHeight - 10);
+      var topo = $('.col-topo'); if (topo && y > topo.offsetHeight) window.scrollTo({ top: topo.offsetHeight - 10, behavior: 'instant' });
       sai.cancel();
       app.animate([{ opacity: 0, transform: 'translateX(' + (dir * 56) + 'px)' }, { opacity: 1, transform: 'translateX(0)' }], { duration: 520, easing: 'cubic-bezier(.22,1,.36,1)' });
       var g = $('#lista');
@@ -437,7 +455,7 @@
     document.querySelectorAll('#cats a').forEach(function (a) { var on = a.getAttribute('href') === '#/c/' + r[1] && r[0] === 'c'; a.classList.toggle('on', on); if (on) ativo = a; });
     Cinema.indicador($('#cats'), ativo);
     ['#carrinho', '#menu'].forEach(function (s) { $(s).hidden = true; }); $('#veu').hidden = true; document.body.style.overflow = '';
-    $('#topo').classList.remove('oculto');
+    $('#topo').classList.remove('oculto', 'min', 'busca-aberta'); altHdr();
     if (r[0] === 'busca' && !q) { app.innerHTML = '<div class="wrap pagina"><h1>Pesquisar</h1><p>Digite o nome da peça na busca do topo.</p></div>'; $('#busca-q').focus(); return; }
     if (r[0] === 'c') colecao(r[1]);
     else if (r[0] === 'p') produto(r[1]);
@@ -446,7 +464,7 @@
     else app.innerHTML = home();
     document.body.dataset.rota = r[0] || 'home';
     document.querySelectorAll('.tabbar [data-tab]').forEach(function (t) { t.classList.toggle('on', t.dataset.tab === 'home' && !r[0]); });
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     Cinema.scan(app);
     if (!r[0] && loaderAcabou) Cinema.heroPlay();
     var t = r[0] === 'p' && porH[r[1]] ? porH[r[1]].t + ' · ' : r[0] === 'c' ? ((CATS.find(function (c) { return c.h === r[1]; }) || {}).n || '') + ' · ' : '';
