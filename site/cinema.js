@@ -125,7 +125,7 @@
   }
   function rolagem() {
     var y = window.scrollY;
-    motoAlvo = y * .18; if (!motoAnda) { motoAnda = true; requestAnimationFrame(motoPasso); }
+    motoAlvo = Math.min(y * .08, 28); if (!motoAnda) { motoAnda = true; requestAnimationFrame(motoPasso); }  // só um leve deslocamento, sem cortar a moto
     $$('.hero .sl-scene').forEach(function (s) { s.style.translate = '0 ' + (y * .08) + 'px'; });
     var hdr = document.getElementById('topo');
     if (hdr && window.innerWidth <= 720) {

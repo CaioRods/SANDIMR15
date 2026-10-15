@@ -361,3 +361,15 @@ body::before{background:radial-gradient(900px 520px at 90% -8%,rgba(30,167,255,.
 #sandim-loader.is-exit .sl-tilt{animation-duration:1.25s}
 #sandim-loader.is-exit .sl-road{animation-duration:.12s}
 @media (min-width:721px){#sandim-loader .sl-rider{width:clamp(260px,30cqw,420px)}#sandim-loader .sl-track{height:clamp(170px,22cqw,260px)}}
+
+/* ---------- passagem da moto (home → Linha R15/R3) ---------- */
+#sandim-loader.is-cobre .sl-word svg{clip-path:inset(0 0 0 0)}
+#sandim-loader.is-cobre .sl-rider{transform:translateX(calc(-50% - 95cqw))}
+#sandim-loader.is-passa .sl-rider{animation:sl-passa 1.5s cubic-bezier(.4,.1,.6,1) forwards}
+@keyframes sl-passa{from{transform:translateX(calc(-50% - 95cqw))}to{transform:translateX(calc(-50% + 115cqw))}}
+#sandim-loader .sl-word{gap:6px}
+.sl-modelo{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(34px,9cqw,64px);line-height:1;letter-spacing:-.01em;color:transparent;
+  opacity:0;transform:translateY(10px);animation:sl-modelo .6s .35s cubic-bezier(.2,.8,.2,1) forwards}
+.sl-modelo.m-r15{-webkit-text-stroke:1.5px #4CBDFF;text-shadow:0 0 24px rgba(30,167,255,.35)}
+.sl-modelo.m-r3{-webkit-text-stroke:1.5px #9AA3B2}
+@keyframes sl-modelo{to{opacity:1;transform:none}}

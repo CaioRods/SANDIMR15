@@ -37,6 +37,7 @@
   /* ---------- loading ---------- */
   var loader = document.getElementById('sandim-loader'), loaderAcabou = false;
   // moto do banner = moto do carregamento com as cores do site (lida antes do carregamento sair da página)
+  var TELA_MOTO = loader ? loader.outerHTML : '';
   var MOTO = (function () {
     var s = loader && loader.querySelector('.sl-moto'); if (!s) return '';
     return s.outerHTML.replace(/sl-roda/g, 'hero-roda').replace(/url\(#sg-branco\)/g, 'url(#sg-preto)').replace(/url\(#sg-azulc\)/g, 'url(#sg-azul)');
@@ -57,28 +58,63 @@
     return s.outerHTML.replace(/sl-roda/g, 'hero-roda').replace(/url\(#sg-branco\)/g, 'url(#sg-preto)').replace(/url\(#sg-azulc\)/g, 'url(#sg-azul)');
   })();
   // saída do carregamento: a borda esquerda da tela segue o deslocamento da moto, em onda
-  function ondaSaida(el) {
+  function ondaSaida(el, traseira) {
     return new Promise(function (fim) {
       var rider = el.querySelector('.sl-rider'); if (!rider) { fim(); return; }
       var W = el.clientWidth, H = el.clientHeight, N = 36, x0 = rider.getBoundingClientRect().left;
       var fase = 0, amp = 0, ult = performance.now(), ini = ult, antes = 0;
       (function quadro(t) {
         var dt = Math.min(.05, Math.max(.001, (t - ult) / 1000)); ult = t;
-        var anda = Math.max(0, rider.getBoundingClientRect().left - x0);  // quanto a moto já andou
+        var rr = rider.getBoundingClientRect(), anda = Math.max(0, rr.left - x0);  // quanto a moto já andou
         var vel = (anda - antes) / dt; antes = anda;                         // px/s
         amp += (Math.min(70, 6 + vel * .035) - amp) * Math.min(1, dt * 8);  // onda cresce com a velocidade
         fase += dt * (4 + vel * .004);
-        var borda = anda * 1.12 - amp, pts = [];
+        var borda = traseira ? rr.left + rr.width * .1 - amp : anda * 1.12 - amp, pts = [];
         for (var i = 0; i <= N; i++) {
           var k = i / N, y = k * H;
           var x = borda + amp * Math.sin(k * Math.PI * 2.4 + fase) + amp * .35 * Math.sin(k * Math.PI * 5.2 - fase * 1.4);
           pts.push(x.toFixed(1) + 'px ' + y.toFixed(1) + 'px');
         }
         el.style.clipPath = 'polygon(' + pts.join(',') + ',' + (W + 400) + 'px ' + H + 'px,' + (W + 400) + 'px 0px)';
-        if (borda - amp * 1.4 > W || t - ini > 3000) { fim(); return; }
+        if (borda - amp * 1.4 > W || t - ini > (traseira ? 4000 : 3000)) { fim(); return; }
         requestAnimationFrame(quadro);
       })(ult);
     });
+  }
+  // entrada em onda: o azul cobre a tela da esquerda para a direita
+  function ondaCobre(el) {
+    return new Promise(function (fim) {
+      var W = el.clientWidth || innerWidth, H = el.clientHeight || innerHeight, N = 36, ini = performance.now(), dur = 700;
+      (function quadro(t) {
+        var k = Math.min(1, (t - ini) / dur), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+        var amp = 34 * Math.sin(Math.PI * k) + 6, fase = t / 1000 * 5, borda = -80 + e * (W + 200), pts = ['-400px 0px'];
+        for (var i = 0; i <= N; i++) {
+          var q = i / N, x = borda + amp * Math.sin(q * Math.PI * 2.4 + fase) + amp * .35 * Math.sin(q * Math.PI * 5.2 - fase * 1.4);
+          pts.push(x.toFixed(1) + 'px ' + (q * H).toFixed(1) + 'px');
+        }
+        pts.push('-400px ' + H + 'px');
+        el.style.clipPath = 'polygon(' + pts.join(',') + ')';
+        if (k < 1) requestAnimationFrame(quadro); else { el.style.clipPath = 'none'; fim(); }
+      })(ini);
+    });
+  }
+  // passagem da moto: cobre, troca a página por baixo e a moto passa levando a tela
+  function passaMoto(modelo, desenhar) {
+    if (!TELA_MOTO || Cinema.calmo || document.getElementById('sandim-loader')) return false;
+    var caixa = document.createElement('div'); caixa.innerHTML = TELA_MOTO;
+    var el = caixa.firstElementChild;
+    el.classList.add('is-cobre');
+    el.style.clipPath = 'polygon(-400px 0px,-399px 0px,-400px 1px)';
+    el.querySelector('.sl-word').insertAdjacentHTML('beforeend', '<span class="sl-modelo m-' + modelo.toLowerCase() + '">' + modelo + '</span>');
+    document.body.appendChild(el);
+    ondaCobre(el).then(function () {
+      desenhar();
+      return new Promise(function (r) { setTimeout(r, 140); });
+    }).then(function () {
+      el.classList.add('is-passa');
+      return ondaSaida(el, true);
+    }).then(function () { el.remove(); });
+    return true;
   }
   var loaderPronto = (function () {
     var visto = false;
@@ -547,9 +583,11 @@
   function idxCat(hash) { var m = /^#\/c\/([^/]+)/.exec(hash || ''); if (!m) return -1; var k = CATS.findIndex(function (c) { return c.h === m[1]; }); return k < 0 ? 99 : k; }
   function rota() {
     passos++;
-    var de = idxCat(rotaAnterior), para = idxCat(location.hash);
+    var de = idxCat(rotaAnterior), para = idxCat(location.hash), anterior = rotaAnterior;
     rotaAnterior = location.hash;
     if (pularTransicao) { pularTransicao = false; desenha(); return; }
+    var linha = location.hash === '#/c/acessorios' ? 'R15' : location.hash === '#/c/acessorios-r3' ? 'R3' : '';
+    if (linha && anterior !== location.hash && passaMoto(linha, desenha)) return;  // de qualquer página para a Linha R15/R3
     if (de > -1 && para > -1 && !Cinema.calmo && app.animate) { trocaCatalogo(para >= de ? 1 : -1); return; }
     Cinema.transicao(desenha);
   }
