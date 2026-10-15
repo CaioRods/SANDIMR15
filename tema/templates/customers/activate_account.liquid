@@ -1,0 +1,9 @@
+<div class="wrap pagina conta">
+  <h1>Ativar conta</h1>
+  {%- form 'activate_customer_password' -%}
+    {{ form.errors | default_errors }}
+    <label for="senha">Senha</label><input id="senha" type="password" name="customer[password]" autocomplete="new-password" required>
+    <label for="senha2">Confirme a senha</label><input id="senha2" type="password" name="customer[password_confirmation]" autocomplete="new-password" required>
+    <button class="btn cheio" type="submit">Ativar conta</button>
+  {%- endform -%}
+</div>

@@ -1,0 +1,38 @@
+{%- comment -%}
+  Card de produto da vitrine. Uso: {% render 'card-produto', product: produto %}
+{%- endcomment -%}
+{%- liquid
+  assign var = product.selected_or_first_available_variant
+  assign preco = product.price_min
+  assign de = blank
+  assign mais_barata = product.variants | sort: 'price' | first
+  if mais_barata.compare_at_price > mais_barata.price
+    assign de = mais_barata.compare_at_price
+  endif
+  assign off = 0
+  if de != blank
+    assign off = de | minus: preco | times: 100 | divided_by: de
+  endif
+  assign img1 = product.media[0].preview_image | default: product.featured_image
+  assign img2 = product.media[1].preview_image
+-%}
+<a class="card" href="{{ product.url }}" data-moto="{% render 'selos-moto', product: product, modo: 'attr' %}" data-preco="{{ preco }}">
+  <div class="ft">
+    {%- if img1 -%}
+      {{ img1 | image_url: width: 600 | image_tag: loading: 'lazy', widths: '240, 360, 480, 600', sizes: '(max-width: 720px) 46vw, 260px', alt: product.title }}
+    {%- endif -%}
+    {%- if img2 -%}
+      {{ img2 | image_url: width: 600 | image_tag: loading: 'lazy', class: 'alt', widths: '240, 360, 480, 600', sizes: '(max-width: 720px) 46vw, 260px', alt: '' }}
+    {%- endif -%}
+    <div class="tags">{% render 'selos-moto', product: product %}</div>
+    {%- if off >= 5 -%}<span class="off">−{{ off }}%</span>{%- endif -%}
+    {%- unless product.available -%}<span class="esgotado">Esgotado</span>{%- endunless -%}
+  </div>
+  <div class="info">
+    <span class="nome">{% render 'titulo-limpo', titulo: product.title %}</span>
+    <span class="de">{% if de != blank %}{{ de | money }}{% endif %}</span>
+    <span class="preco">{% if product.price_varies %}<small>a partir de</small>{% endif %}{{ preco | money }}</span>
+    <span class="parc">ou 12x de {{ preco | times: settings.parcela_coef | money }}</span>
+    <span class="frete">Frete grátis</span>
+  </div>
+</a>

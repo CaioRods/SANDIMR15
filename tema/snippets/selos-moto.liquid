@@ -1,0 +1,35 @@
+{%- comment -%}
+  Descobre para qual moto o produto serve, pelo título e pelas coleções.
+  Uso: {% render 'selos-moto', product: product %}            -> selos visuais
+       {% render 'selos-moto', product: product, modo: 'attr' %} -> "R15 R3" (para data-moto)
+       {% render 'selos-moto', product: product, modo: 'longo' %} -> "Yamaha R15"
+{%- endcomment -%}
+{%- liquid
+  assign t = product.title | upcase | replace: 'R30', ''
+  assign hs = product.collections | map: 'handle' | join: ','
+  assign hs = ',' | append: hs | append: ','
+  assign r15 = false
+  assign r3 = false
+  assign sbm = false
+  if t contains 'R15' or hs contains ',acessorios,'
+    assign r15 = true
+  endif
+  if t contains 'R3' or hs contains ',acessorios-r3,'
+    assign r3 = true
+  endif
+  if t contains 'SBM' or hs contains ',sbm-250s,'
+    assign sbm = true
+    assign r15 = false
+    assign r3 = false
+  endif
+  unless r15 or r3 or sbm
+    assign r15 = true
+  endunless
+-%}
+{%- if modo == 'attr' -%}
+  {%- if r15 %}R15 {% endif -%}{%- if r3 %}R3 {% endif -%}{%- if sbm %}SBM{% endif -%}
+{%- else -%}
+  {%- if r15 -%}<span class="selo R15">{% if modo == 'longo' %}Yamaha {% endif %}R15</span>{%- endif -%}
+  {%- if r3 -%}<span class="selo R3">{% if modo == 'longo' %}Yamaha {% endif %}R3</span>{%- endif -%}
+  {%- if sbm -%}<span class="selo SBM">SBM 250s</span>{%- endif -%}
+{%- endif -%}

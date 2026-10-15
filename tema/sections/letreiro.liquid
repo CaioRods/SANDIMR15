@@ -1,0 +1,25 @@
+{%- liquid
+  assign itens = section.settings.itens | split: ','
+-%}
+{%- capture faixa -%}
+  {%- for item in itens -%}
+    {%- assign t = item | strip -%}
+    {%- if t != blank -%}
+      <span{% if forloop.index0 == 0 or forloop.index0 == 3 %} class="az"{% endif %}>{{ t }}</span><span class="pt">/</span>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+<div class="letreiro" aria-hidden="true">
+  <div class="letreiro-in" style="animation-duration: {{ section.settings.velocidade }}s">{{ faixa }}{{ faixa }}{{ faixa }}{{ faixa }}</div>
+</div>
+
+{% schema %}
+{
+  "name": "Letreiro em movimento",
+  "settings": [
+    { "type": "text", "id": "itens", "label": "Textos (separados por vírgula)", "default": "R15, R3, Frete grátis, 12x no cartão, Testado no canal" },
+    { "type": "range", "id": "velocidade", "label": "Duração de uma volta (segundos)", "min": 10, "max": 60, "step": 2, "default": 28 }
+  ],
+  "presets": [{ "name": "Letreiro em movimento" }]
+}
+{% endschema %}

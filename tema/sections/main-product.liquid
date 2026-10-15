@@ -1,0 +1,147 @@
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign linha = 'R15'
+-%}
+{%- capture motos_attr -%}{% render 'selos-moto', product: product, modo: 'attr' %}{%- endcapture -%}
+{%- if motos_attr contains 'R3' and motos_attr contains 'R15' -%}{%- assign linha = 'R15' -%}{%- elsif motos_attr contains 'R3' -%}{%- assign linha = 'R3' -%}{%- elsif motos_attr contains 'SBM' -%}{%- assign linha = 'SBM 250s' -%}{%- endif -%}
+
+<div class="wrap">
+  <nav class="migalha escura" aria-label="Você está em">
+    <a href="{{ routes.root_url }}">Início</a> /
+    {%- if collection -%} <a href="{{ collection.url }}">{{ collection.title | escape }}</a> /{%- endif -%}
+    {% render 'titulo-limpo', titulo: product.title %}
+  </nav>
+
+  <div class="prod" data-produto>
+    <div class="galeria">
+      <div class="miniaturas" data-minis>
+        {%- for media in product.media -%}
+          <button type="button" data-f="{{ forloop.index0 }}"{% if forloop.first %} class="on"{% endif %} aria-label="Foto {{ forloop.index }}">{{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}</button>
+        {%- endfor -%}
+      </div>
+      <div class="principal">
+        <div class="trilho" data-trilho>
+          {%- for media in product.media -%}
+            {%- assign carga = 'lazy' -%}{%- if forloop.first -%}{%- assign carga = 'eager' -%}{%- endif -%}{%- assign alt_foto = media.alt | default: product.title -%}
+            {%- if media.media_type == 'image' -%}
+              {{ media | image_url: width: 1100 | image_tag: data-media-id: media.id, loading: carga, widths: '375, 600, 800, 1100', sizes: '(max-width: 860px) 100vw, 560px', alt: alt_foto }}
+            {%- else -%}
+              <div class="midia" data-media-id="{{ media.id }}">{{ media | media_tag: image_size: '1100x' }}</div>
+            {%- endif -%}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+          {%- endfor -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="pontos" data-pontos>{%- for media in product.media -%}<i{% if forloop.first %} class="on"{% endif %}></i>{%- endfor -%}</div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="compra">
+      <div class="selos">{% render 'selos-moto', product: product, modo: 'longo' %}<small>Compatibilidade</small></div>
+      <h1>{% render 'titulo-limpo', titulo: product.title %}</h1>
+
+      <div class="precos" data-precos>
+        <span class="de" data-de{% unless v.compare_at_price > v.price %} hidden{% endunless %}>{{ v.compare_at_price | money }}</span>
+        <span class="preco"><span data-preco>{{ v.price | money }}</span>
+          {%- if v.compare_at_price > v.price -%}
+            {%- assign off = v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price -%}
+          {%- endif -%}
+          <span class="off" data-off{% unless off >= 5 %} hidden{% endunless %}>−{{ off }}%</span>
+        </span>
+        <span class="parc">ou 12x de <span data-parc>{{ v.price | times: settings.parcela_coef | money }}</span> no cartão</span>
+      </div>
+
+      {%- form 'product', product, id: 'form-produto', class: 'form-produto', data-carrinho-ajax: '' -%}
+        <input type="hidden" name="id" value="{{ v.id }}" data-variante-id>
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            {%- assign opi = forloop.index0 -%}
+            <fieldset class="opcao" data-opcao="{{ opi }}">
+              <legend><h3>{{ option.name }}: <b data-opcao-nome>{{ option.selected_value }}</b></h3></legend>
+              <div class="variantes">
+                {%- for valor in option.values -%}
+                  {%- assign img_val = nil -%}
+                  {%- for var in product.variants -%}
+                    {%- if var.options[opi] == valor and var.featured_image and img_val == nil -%}{%- assign img_val = var.featured_image -%}{%- endif -%}
+                  {%- endfor -%}
+                  <label class="var{% if valor == option.selected_value %} on{% endif %}">
+                    <input type="radio" name="opcao-{{ opi }}" value="{{ valor | escape }}"{% if valor == option.selected_value %} checked{% endif %}>
+                    {%- if img_val -%}{{ img_val | image_url: width: 100 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+                    <span>{{ valor }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <div class="linha-compra">
+          <div class="qtd">
+            <button type="button" data-qtd="-1" aria-label="Diminuir">−</button>
+            <input name="quantity" value="1" inputmode="numeric" aria-label="Quantidade" data-qtd-input>
+            <button type="button" data-qtd="1" aria-label="Aumentar">+</button>
+          </div>
+          <button class="btn" type="submit" name="add" data-comprar{% unless v.available %} disabled{% endunless %}>{% if v.available %}Adicionar ao carrinho{% else %}Esgotado{% endif %}</button>
+        </div>
+      {%- endform -%}
+
+      <div class="garantias">
+        <div>{% render 'icone', nome: 'caminhao' %}<span><b>Frete grátis</b> para todo o Brasil, com rastreio</span></div>
+        <div>{% render 'icone', nome: 'escudo' %}<span>Compra segura pelo checkout da Shopify</span></div>
+        <div>{% render 'icone', nome: 'video' %}<span>Escolhido e testado por quem usa a R15 no canal</span></div>
+      </div>
+
+      {%- if product.description != blank -%}
+        <div class="desc-box"><h2>Sobre o produto</h2><div class="desc rte">{{ product.description }}</div></div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<div class="buybar" data-buybar>
+  <div class="bb-txt"><b data-preco>{{ v.price | money }}</b><small>ou 12x de <span data-parc>{{ v.price | times: settings.parcela_coef | money }}</span></small></div>
+  <button class="btn" type="submit" form="form-produto" data-comprar{% unless v.available %} disabled{% endunless %}>{% if v.available %}Comprar{% else %}Esgotado{% endif %}</button>
+</div>
+
+<script type="application/json" data-produto-json>{{ product | json }}</script>
+
+{%- comment -%} Peças relacionadas: mesma coleção (ignorando vitrines genéricas) {%- endcomment -%}
+{%- liquid
+  assign genericas = ',mais-vendidos,news,ofertas-da-semana,acessorios,acessorios-r3,frontpage,all,'
+  assign rel_col = nil
+  for c in product.collections
+    assign chave = ',' | append: c.handle | append: ','
+    unless genericas contains chave
+      assign rel_col = c
+      break
+    endunless
+  endfor
+  if rel_col == nil
+    assign rel_col = product.collections.first
+  endif
+-%}
+{%- if rel_col and rel_col.products_count > 1 -%}
+  <section class="secao">
+    <div class="wrap">
+      <div class="sec-head"><div><h2>Combina com</h2><p>Mais peças para a sua {{ linha }}</p></div><a class="ver-todos" href="{{ rel_col.url }}">Ver todos</a></div>
+      <div class="grade carrossel">
+        {%- assign n = 0 -%}
+        {%- for produto in rel_col.products limit: 10 -%}
+          {%- if produto.id != product.id and n < 8 -%}
+            {% render 'card-produto', product: produto %}
+            {%- assign n = n | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Produto",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,22 @@
+<div class="wrap pagina conta">
+  <h1>Entrar</h1>
+  {%- form 'customer_login' -%}
+    {{ form.errors | default_errors }}
+    <label for="email">E-mail</label><input id="email" type="email" name="customer[email]" autocomplete="email" required>
+    {%- if form.password_needed -%}<label for="senha">Senha</label><input id="senha" type="password" name="customer[password]" autocomplete="current-password" required>{%- endif -%}
+    <button class="btn cheio" type="submit">Entrar</button>
+    <p class="mini"><a href="#recuperar">Esqueci minha senha</a> · <a href="{{ routes.account_register_url }}">Criar conta</a></p>
+  {%- endform -%}
+  <div id="recuperar">
+    <h2>Recuperar senha</h2>
+    {%- form 'recover_customer_password' -%}
+      {%- if form.posted_successfully? -%}<p>Enviamos um e-mail com o link para criar uma nova senha.</p>{%- endif -%}
+      {{ form.errors | default_errors }}
+      <label for="rec-email">E-mail</label><input id="rec-email" type="email" name="email" autocomplete="email" required>
+      <button class="btn claro cheio" type="submit">Enviar link</button>
+    {%- endform -%}
+  </div>
+  {%- if shop.checkout.guest_login -%}
+    {%- form 'guest_login' -%}<button class="btn claro cheio" type="submit">Continuar sem conta</button>{%- endform -%}
+  {%- endif -%}
+</div>

@@ -1,0 +1,66 @@
+<footer class="rodape">
+  <div class="rodape-in">
+    <div class="rod-marca">
+      <img src="{{ 'logo-negativo.svg' | asset_url }}" alt="{{ shop.name }}" width="2000" height="667" loading="lazy">
+      <h4>{{ section.settings.sac_titulo }}</h4>
+      <p class="sac">{{ section.settings.sac_texto }}</p>
+      <p class="contato">
+        {%- if section.settings.email != blank -%}E-mail: <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a><br>{%- endif -%}
+        {%- if settings.whatsapp_numero != blank -%}WhatsApp: <a href="https://wa.me/{{ settings.whatsapp_numero | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')' }}" target="_blank" rel="noopener">{{ settings.whatsapp_exibido }}</a>{%- endif -%}
+      </p>
+    </div>
+    <div class="rod-menu">
+      <h4>{{ section.settings.menu.title | default: 'Menu de rodapé' }}</h4>
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </div>
+    <div class="news">
+      <h4>{{ section.settings.news_titulo }}</h4>
+      <p>{{ section.settings.news_texto }}</p>
+      {%- form 'customer', class: 'news-form', id: 'newsletter' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p class="news-ok" role="status">E-mail cadastrado. Obrigado!</p>
+        {%- else -%}
+          <input type="email" name="contact[email]" required placeholder="Seu e-mail" aria-label="Seu e-mail" autocomplete="email">
+          <button class="btn" type="submit">Enviar</button>
+        {%- endif -%}
+        {%- if form.errors -%}<p class="news-erro">{{ form.errors | default_errors }}</p>{%- endif -%}
+      {%- endform -%}
+      {%- if section.settings.mostrar_pagamentos -%}
+        <h4 class="aceitamos">Nós aceitamos</h4>
+        <div class="pags">
+          {%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'pag-ic' }}{%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- if section.settings.aviso != blank -%}
+    <div class="rodape-aviso">{{ section.settings.aviso }}</div>
+  {%- endif -%}
+  <div class="rodape-base">
+    <span>© {{ 'now' | date: '%Y' }} {{ section.settings.direitos }} · Todos os direitos reservados{% if shop.privacy_policy %} · <a href="{{ shop.privacy_policy.url }}">Política de Privacidade</a>{% endif %}{% if shop.terms_of_service %} · <a href="{{ shop.terms_of_service.url }}">Termos de serviço</a>{% endif %} · {{ powered_by_link }}</span>
+    <a class="crdevs" href="https://www.instagram.com/caio.riguess/" target="_blank" rel="noopener" aria-label="Desenvolvido por CRdevs, abre o Instagram @caio.riguess">
+      <span>Desenvolvido por</span>
+      <svg viewBox="0 0 132 32" aria-hidden="true"><path d="M8 2h40l-6 28H2z" fill="#F2F5FA"/><text x="25" y="23.5" text-anchor="middle" font-family="Kanit, Arial Black, sans-serif" font-style="italic" font-weight="800" font-size="20" fill="#1C1F25">CR</text><text x="52" y="23.5" font-family="Kanit, Arial Black, sans-serif" font-style="italic" font-weight="700" font-size="21" fill="#F2F5FA">devs</text></svg>
+    </a>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Rodapé",
+  "settings": [
+    { "type": "text", "id": "sac_titulo", "label": "Título do atendimento", "default": "Atendimento ao cliente" },
+    { "type": "text", "id": "sac_texto", "label": "Texto do atendimento", "default": "SAC (Serviço de Atendimento ao Consumidor)" },
+    { "type": "text", "id": "email", "label": "E-mail de atendimento", "default": "sandimcomercial@gmail.com" },
+    { "type": "link_list", "id": "menu", "label": "Menu do rodapé", "default": "footer" },
+    { "type": "text", "id": "news_titulo", "label": "Título da newsletter", "default": "Nossa newsletter" },
+    { "type": "text", "id": "news_texto", "label": "Texto da newsletter", "default": "Assine nossa newsletter e receba as melhores ofertas DE GRAÇA!" },
+    { "type": "checkbox", "id": "mostrar_pagamentos", "label": "Mostrar formas de pagamento", "default": true },
+    { "type": "richtext", "id": "aviso", "label": "Aviso legal", "default": "<p>Preços e condições de pagamento exclusivos para compras neste site oficial, podendo variar com o tempo da oferta. Evite comprar produtos mais baratos ou de outras lojas, pois você pode estar sendo enganado(a) por um golpista. Caso você compre os mesmos produtos em outras lojas, não nos responsabilizamos por quaisquer problemas.</p>" },
+    { "type": "text", "id": "direitos", "label": "Nome na linha de direitos", "default": "Sandim R15" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+<section class="secao branca">
+  <div class="wrap">
+    <div class="sec-head"><div>
+      {%- if section.settings.chamada != blank -%}<span class="eyebrow">{{ section.settings.chamada }}</span>{%- endif -%}
+      <h2>{{ section.settings.titulo }}</h2>
+    </div></div>
+    <div class="motos">
+      {%- for block in section.blocks -%}
+        {%- assign col = block.settings.colecao -%}
+        <a class="moto-card{% if block.settings.destaque %} r15{% endif %}" href="{{ col.url | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+          <b>{{ block.settings.nome }}</b>
+          <span>{% if block.settings.texto != blank %}{{ block.settings.texto }}{% elsif col != blank %}{{ col.products_count }} acessórios{% endif %}</span>
+          <span class="seta">{{ block.settings.botao }} →</span>
+          <img src="{{ 'moto-cores.svg' | asset_url }}" alt="" width="1050" height="425" loading="lazy">
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Qual é a sua moto?",
+  "settings": [
+    { "type": "text", "id": "chamada", "label": "Chamada pequena", "default": "Comece por aqui" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Qual é a sua moto?" }
+  ],
+  "blocks": [
+    {
+      "type": "moto",
+      "name": "Moto",
+      "settings": [
+        { "type": "text", "id": "nome", "label": "Nome", "default": "R15" },
+        { "type": "collection", "id": "colecao", "label": "Coleção" },
+        { "type": "text", "id": "texto", "label": "Texto (opcional)", "info": "Vazio mostra a quantidade de produtos da coleção." },
+        { "type": "text", "id": "botao", "label": "Texto do link", "default": "Ver linha" },
+        { "type": "checkbox", "id": "destaque", "label": "Card em destaque (escuro e maior)", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "Qual é a sua moto?", "blocks": [ { "type": "moto", "settings": { "nome": "R15", "destaque": true } }, { "type": "moto", "settings": { "nome": "R3" } } ] }]
+}
+{% endschema %}

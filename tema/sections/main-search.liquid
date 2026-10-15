@@ -1,0 +1,38 @@
+{%- paginate search.results by 24 -%}
+<section class="col-topo">
+  <div class="wrap">
+    <nav class="migalha" aria-label="Você está em"><a href="{{ routes.root_url }}">Início</a> / Busca</nav>
+    <h1>{% if search.performed %}Busca: “{{ search.terms | escape }}”{% else %}Pesquisar{% endif %}</h1>
+    {%- if search.performed -%}<p>{{ search.results_count }} resultado{% if search.results_count != 1 %}s{% endif %}</p>{%- endif -%}
+  </div>
+</section>
+<div class="wrap">
+  <form class="busca busca-pagina" action="{{ routes.search_url }}" method="get" role="search">
+    <input type="hidden" name="type" value="product">
+    <input type="hidden" name="options[prefix]" value="last">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Buscar peça para sua R15 ou R3" aria-label="Buscar produtos">
+    <button type="submit" aria-label="Buscar">{% render 'icone', nome: 'busca' %}</button>
+  </form>
+  {%- if search.performed -%}
+    <div class="grade">
+      {%- for item in search.results -%}
+        {%- if item.object_type == 'product' -%}{% render 'card-produto', product: item %}{%- endif -%}
+      {%- else -%}
+        <p class="vazio">Nenhum produto encontrado. Tente outra palavra ou veja a linha R15.</p>
+      {%- endfor -%}
+    </div>
+    {%- if paginate.pages > 1 -%}
+      <nav class="paginas" aria-label="Páginas">
+        {%- if paginate.previous -%}<a class="chip" href="{{ paginate.previous.url }}">← Anterior</a>{%- endif -%}
+        <span>Página {{ paginate.current_page }} de {{ paginate.pages }}</span>
+        {%- if paginate.next -%}<a class="chip" href="{{ paginate.next.url }}">Próxima →</a>{%- endif -%}
+      </nav>
+    {%- endif -%}
+  {%- endif -%}
+  <div style="height:48px"></div>
+</div>
+{%- endpaginate -%}
+
+{% schema %}
+{ "name": "Busca", "settings": [] }
+{% endschema %}

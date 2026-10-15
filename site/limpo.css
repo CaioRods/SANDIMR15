@@ -1,0 +1,154 @@
+/* Sandim R15 · passada de limpeza visual · CRdevs
+   Menos informação na tela: cards só com foto/nome/preço, banner enxuto, mais respiro. */
+
+/* ---------- loading em tela cheia, menor no computador ---------- */
+@media (min-width:721px){
+  #sandim-loader .sl-track{height:clamp(140px,19cqw,230px)}
+  #sandim-loader .sl-rider{width:clamp(200px,28cqw,340px)}
+  #sandim-loader .sl-word{width:clamp(170px,20cqw,260px)}
+}
+
+/* ---------- ritmo geral ---------- */
+body{background:#F5F7FB}
+.secao{padding-block:72px}
+.secao.branca{background:#fff}
+.sec-head{margin-bottom:28px;align-items:center}
+.sec-head h2{font-size:clamp(26px,3vw,36px);font-weight:800}
+.sec-head p{display:none}
+.ver-todos{font-size:13px;color:var(--texto);border-bottom:2px solid var(--azul);padding-bottom:2px;text-decoration:none!important}
+.topline{font-size:12px;padding-block:7px;letter-spacing:.14em;background:#14161B}
+
+/* ---------- cards: foto, nome e preço ---------- */
+.grade{gap:28px 20px}
+.card{background:none;border:0;border-radius:0;overflow:visible;box-shadow:none!important}
+.card:hover{transform:none}
+.card::after{display:none}
+.card .ft{border-radius:14px;overflow:hidden;background:#fff;aspect-ratio:1;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.card .ft img{object-fit:contain;padding:8%}
+.card .ft .alt{object-fit:cover;padding:0}
+@media (hover:hover){.card:hover .ft{box-shadow:0 14px 34px rgba(15,23,42,.10)}.card .ft{transition:box-shadow .35s}.card:hover .ft img:first-child{transform:scale(1.04)}}
+.card .off{top:10px;left:10px;right:auto;background:#1C1F25;color:#fff;font-family:var(--label);font-style:normal;font-weight:700;font-size:12px;letter-spacing:.04em;padding:3px 8px;border-radius:20px;clip-path:none}
+.card .tags,.card .frete,.card .de{display:none}
+.card .info{padding:14px 2px 0;gap:3px}
+.card .nome{font-weight:500;font-size:14.5px;color:#2A3040;min-height:2.7em;line-height:1.35}
+.card .preco{font-size:19px;font-weight:800;margin-top:4px}
+.card .preco small{display:inline;font-size:12px;font-weight:500;color:var(--apoio)}
+.card .parc{font-size:12.5px;color:#8A94A8}
+
+/* ---------- banner principal ---------- */
+.hero{background:radial-gradient(120% 90% at 75% 40%,#13265A 0%,#0A1430 55%,#060C1F 100%)}
+.hero-in{grid-template-columns:1.15fr 1.2fr;min-height:560px;align-items:center;padding-top:40px;padding-bottom:40px}
+.hero-txt{padding-bottom:0;gap:22px}
+.hero h1{font-size:clamp(44px,5.2vw,76px);line-height:.98;letter-spacing:-.01em}
+.hero h1 em{display:block}
+.hero .eyebrow{font-size:12px;letter-spacing:.22em;opacity:.85}
+.hero .ctas{align-items:center;gap:22px}
+.link-r3{font-family:var(--label);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:#F2F5FA;border-bottom:2px solid rgba(76,189,255,.6);padding-bottom:3px}
+.link-r3:hover{border-color:var(--azul-claro)}
+.hero-moto{align-self:end;margin-bottom:-2px}
+.hero .sl-scene{height:55%;opacity:.8}
+.hero .road{opacity:.6}
+
+/* ---------- seletor de moto mais limpo ---------- */
+.motos{gap:16px}
+.moto-card{border:0;border-radius:16px;min-height:170px;padding:26px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+.moto-card span:not(.seta){font-size:14px}
+.moto-card .seta{font-size:12px;color:var(--azul)}
+.moto-card.r15 .seta{color:var(--azul-claro)}
+
+/* ---------- categorias: cantos maiores ---------- */
+.categorias .cat{border-radius:14px}
+
+/* ---------- canal mais enxuto ---------- */
+.canal-in{padding-block:80px}
+.canal p{font-size:17px}
+
+/* ---------- produto ---------- */
+.compra{gap:18px}
+.compra .selos small{display:none}
+.compra h1{font-weight:800}
+.precos{border:0;padding:4px 0}
+.precos .preco{font-size:38px}
+.garantia-linha{display:flex;align-items:center;gap:10px;margin:0;color:var(--apoio);font-size:14px}
+.garantia-linha svg{width:20px;height:20px;fill:none;stroke:var(--azul);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.galeria .principal{border:0;border-radius:16px;background:#fff}
+
+/* ---------- coleção ---------- */
+.res-cont{display:none}
+
+/* ---------- celular ---------- */
+.busca-btn{display:none}
+@media (max-width:720px){
+  .topline{font-size:11px;padding-block:6px}
+  /* logo no centro: menu | logo | busca */
+  .hdr-in{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding-block:8px;gap:0}
+  .menu-btn{grid-column:1}
+  .logo{grid-column:2;justify-self:center}
+  .logo svg{height:46px}
+  .hdr.min .logo svg{height:38px}
+  .acoes{grid-column:3;justify-self:end;margin:0}
+  .acoes .hide-sm,.acoes .carrinho-btn{display:none}
+  .busca-btn{display:grid}
+  .busca{grid-column:1/-1;display:none;margin-top:8px}
+  .hdr.busca-aberta .busca{display:flex;animation:busca-in .3s cubic-bezier(.2,.8,.2,1)}
+  .hdr.min .busca{display:none}
+  .hdr.min.busca-aberta .busca{display:flex}
+  .cats{display:none}
+  @keyframes busca-in{from{opacity:0;transform:translateY(-6px)}}
+
+  .secao{padding-block:44px}
+  .sec-head{margin-bottom:18px}
+  .sec-head h2{font-size:26px}
+  .grade{gap:22px 12px}
+  .grade.carrossel{grid-auto-columns:58%;gap:14px}
+  .card .ft{border-radius:12px}
+  .card .info{padding-top:10px}
+  .card .nome{font-size:13.5px}
+  .card .preco{font-size:17px}
+
+  .hero{min-height:calc(100svh - 196px)}
+  .hero-in{text-align:center;align-items:center;justify-content:center;padding-top:34px;min-height:0}
+  .hero-txt{align-items:center;gap:18px}
+  .hero h1{font-size:clamp(42px,13vw,58px)}
+  .hero .ctas{flex-direction:column;gap:16px;width:100%}
+  .hero .ctas .btn{width:100%;max-width:320px;flex:none}
+  .hero-moto{width:112%!important;margin:22px 0 0 -6%!important}
+
+  .moto-card{min-height:120px;padding:18px;border-radius:14px}
+  .canal-in{padding-block:52px}
+  .precos .preco{font-size:32px}
+  .galeria .principal{border-radius:0}
+}
+
+/* ---------- sem pontas: tudo arredondado ---------- */
+.btn{clip-path:none;border-radius:999px;letter-spacing:.08em;padding:14px 28px;box-shadow:0 6px 18px rgba(0,134,209,.25)}
+.btn.claro{box-shadow:none;border:1.5px solid var(--borda)}
+.btn.escuro{box-shadow:0 6px 18px rgba(23,25,30,.25)}
+.sec-head h2::after{clip-path:none;border-radius:4px;height:3px;width:40px}
+.off,.precos .off{clip-path:none;border-radius:999px;font-family:var(--label);font-style:normal;font-weight:700;font-size:12.5px;letter-spacing:.04em;padding:3px 10px;background:#E8F4FD;color:#0077B8}
+.qtd{border-radius:999px;overflow:hidden}
+.variantes button,.variantes .var{border-radius:12px}
+.busca{border-radius:999px}
+.busca button{border-radius:0 999px 999px 0}
+.chip{border-radius:999px}
+.ordem select{border-radius:999px}
+.garantias,.contato-box{border-radius:14px}
+.item img{border-radius:10px}
+.whats{box-shadow:0 8px 22px rgba(31,175,85,.35)}
+
+/* ---------- selos de moto: R15 azul, R3 cinza escuro ---------- */
+.selo{clip-path:none;border-radius:999px;font-family:var(--label);font-style:normal;font-weight:700;font-size:11.5px;letter-spacing:.08em;padding:3px 10px;line-height:1.4}
+.selo.R15{background:var(--g-azul);color:#fff}
+.selo.R3{background:linear-gradient(180deg,#3A3F49,#24272E);color:#fff}
+.selo.SBM{background:#E6EBF3;color:#4A5568}
+.card .tags{display:flex;top:10px;left:10px;gap:5px}
+.card .tags .selo{font-size:10.5px;padding:2px 9px;box-shadow:0 2px 6px rgba(15,23,42,.12)}
+.card .off{display:none}
+.compra .selos .selo{font-size:12px;padding:4px 12px}
+
+/* ---------- moto completa no banner ---------- */
+.hero-moto .sl-moto{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 22px 34px rgba(0,0,0,.5))}
+.hero-moto{margin-bottom:6px}
+@media (max-width:720px){.hero-moto{width:100%!important;margin:22px 0 10px 0!important}}
+.hero-moto .sl-spin{animation:none!important}
+.hero-moto .sl-spin use[opacity]{display:none}

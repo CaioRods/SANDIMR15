@@ -1,0 +1,15 @@
+<div class="wrap pagina conta">
+  <h1>Minha conta</h1>
+  <p>Olá, {{ customer.first_name | default: customer.email }}. <a href="{{ routes.account_logout_url }}">Sair</a></p>
+  <h2>Pedidos</h2>
+  {%- paginate customer.orders by 20 -%}
+    {%- for order in customer.orders -%}
+      <div class="item-pedido"><a href="{{ order.customer_url }}">Pedido {{ order.name }}</a><span>{{ order.created_at | date: '%d/%m/%Y' }}</span><span>{{ order.fulfillment_status_label }}</span><b>{{ order.total_price | money }}</b></div>
+    {%- else -%}
+      <p>Você ainda não fez pedidos.</p>
+    {%- endfor -%}
+  {%- endpaginate -%}
+  <h2>Endereço principal</h2>
+  {%- if customer.default_address -%}<p>{{ customer.default_address | format_address }}</p>{%- endif -%}
+  <p><a href="{{ routes.account_addresses_url }}">Ver endereços ({{ customer.addresses_count }})</a></p>
+</div>

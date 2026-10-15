@@ -1,0 +1,40 @@
+<section class="secao branca">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>{{ section.settings.titulo }}</h2></div></div>
+    <div class="categorias">
+      {%- for block in section.blocks -%}
+        {%- assign col = block.settings.colecao -%}
+        {%- if col != blank -%}
+          {%- assign foto = block.settings.imagem | default: col.featured_image -%}
+          {%- if block.settings.imagem == blank and col.products.first -%}
+            {%- assign foto = col.products.first.featured_media.preview_image -%}
+          {%- endif -%}
+          <a class="cat" href="{{ col.url }}" {{ block.shopify_attributes }}>
+            <div class="ft">{%- if foto -%}{{ foto | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '(max-width: 720px) 38vw, 200px', alt: '' }}{%- endif -%}</div>
+            <div class="nm"><b>{{ block.settings.rotulo | default: col.title }}</b><small>{{ col.products_count }} itens</small></div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categorias",
+  "settings": [ { "type": "text", "id": "titulo", "label": "Título", "default": "Compre por categoria" } ],
+  "blocks": [
+    {
+      "type": "categoria",
+      "name": "Categoria",
+      "settings": [
+        { "type": "collection", "id": "colecao", "label": "Coleção" },
+        { "type": "text", "id": "rotulo", "label": "Nome" },
+        { "type": "image_picker", "id": "imagem", "label": "Foto (opcional)", "info": "Vazio usa a foto do primeiro produto da coleção." }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "Categorias" }]
+}
+{% endschema %}

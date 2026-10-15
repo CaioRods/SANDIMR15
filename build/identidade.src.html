@@ -1,0 +1,370 @@
+<meta charset="utf-8">
+<title>Sandim R15 Store · Identidade</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,700;1,800&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: faixas de largura total em azul-noite; abre com a tela de carregamento rodando, depois o sistema de marca em ordem de uso */
+:root{
+  --noite:#0A1430;      /* fundo escuro da marca */
+  --noite-2:#111D40;    /* superfícies */
+  --linha:#22345F;      /* bordas */
+  --azul:#0093E2;       /* azul Sandim (logo em fundo claro) */
+  --azul-claro:#1EA7FF; /* azul Sandim em fundo escuro */
+  --preto:#1C1F25;      /* preto fosco (grafite) */
+  --g-azul:linear-gradient(180deg,#1AA6F2,#0086D1);
+  --g-azulc:linear-gradient(180deg,#4CBDFF,#169BEF);
+  --g-preto:linear-gradient(180deg,#2A2D35,#17191E);
+  --g-noite:linear-gradient(180deg,#0F1B3D,#091229);
+  --branco:#F2F5FA;
+  --aluminio:#8C9AB8;
+  --sinal:#FF6B1A;      /* só promoção */
+  --display:"Kanit","Arial Black",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --label:"Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--noite);color:var(--branco);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:72px}
+.band.alt{background:linear-gradient(180deg,#121F45,#0E183A)}
+.wrap{max-width:1120px;margin-inline:auto;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--display);font-style:italic;font-weight:800;margin:0;text-wrap:balance;line-height:1.05}
+h2{font-size:clamp(28px,4vw,42px)}
+h3{font-size:19px;font-weight:700}
+p{margin:0;max-width:65ch}
+.eyebrow{font-family:var(--label);font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--azul-claro)}
+.muted{color:var(--aluminio)}
+.head{display:flex;flex-direction:column;gap:12px}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.cap{font-family:var(--label);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--aluminio);font-weight:600}
+.vers{display:flex;flex-direction:column;gap:10px;min-width:0}
+.tile{border-radius:4px;display:grid;place-items:center;padding:36px 28px;min-height:220px}
+.tile svg{width:100%;max-width:440px;height:auto;display:block}
+.t-white{background:#fff}.t-noite{background:var(--noite);border:1px solid var(--linha)}.t-preto{background:var(--preto);border:1px solid var(--linha)}.t-azul{background:var(--g-azul)}
+
+/* HERO */
+.hero{padding-block:0}
+.hero{padding-left:0;padding-right:0}
+.hero .sl-stage{padding-block:56px 40px}
+.hero-txt{max-width:calc(1120px + 32px);margin-inline:auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:8px 64px;display:flex;flex-direction:column;gap:16px}
+.hero-txt h1{font-size:clamp(30px,5vw,54px)}
+.hero-txt p{font-size:clamp(17px,2vw,20px);color:#C9D2E6}
+.replay{align-self:flex-start;font-family:var(--label);font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;background:var(--g-azulc);color:var(--noite);border:0;padding:12px 22px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.replay:focus-visible{outline:2px solid var(--branco);outline-offset:3px}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:0 32px}
+.phase{border-top:2px solid var(--linha);padding-top:14px;display:flex;flex-direction:column;gap:6px;transition:border-color .2s}
+.phase.on{border-color:var(--azul-claro)}
+.phase .n{font-family:var(--label);font-weight:700;color:var(--azul-claro);letter-spacing:.1em;font-size:13px}
+.phase p{color:var(--aluminio);font-size:15px}
+
+/* ícones */
+.icons{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap;justify-content:center}
+.app{background:var(--noite);display:grid;place-items:center;border:1px solid var(--linha);overflow:hidden}
+.app svg{width:84%;height:auto}
+
+/* PALETA */
+.sws{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr))}
+.sw{border-radius:4px;overflow:hidden;border:1px solid var(--linha);display:flex;flex-direction:column}
+.sw .c{height:104px}
+.sw .t{padding:12px 14px;display:flex;flex-direction:column;gap:2px;background:var(--noite-2)}
+.sw .t b{font-family:var(--display);font-style:italic;font-weight:700;font-size:16px}
+.sw .t code{font-family:var(--label);color:var(--aluminio);font-size:14px}
+.sw .t span{font-size:14px;color:var(--aluminio)}
+
+/* TIPO */
+.type-row{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:26px 0;border-top:1px solid var(--linha);align-items:baseline}
+.type-row:last-child{border-bottom:1px solid var(--linha)}
+@media (max-width:640px){.type-row{grid-template-columns:1fr;gap:8px}}
+.spec-a{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(32px,6vw,60px);line-height:1}
+.spec-b{font-size:18px;max-width:58ch}
+.spec-c{font-family:var(--label);font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+
+/* LINHAS */
+.badge{display:inline-flex;align-items:center;font-family:var(--display);font-style:italic;font-weight:800;font-size:15px;padding:4px 12px;letter-spacing:.02em;white-space:nowrap;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+.b-r15{background:var(--g-azulc);color:var(--noite)}
+.b-r3{background:var(--branco);color:var(--noite)}
+.b-sbm{background:var(--linha);color:var(--aluminio)}
+.lines{display:flex;flex-direction:column;gap:14px}
+.line-row{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
+@media (max-width:480px){.line-row{grid-template-columns:1fr;gap:6px}}
+
+/* MOCKUP SITE */
+.browser{border:1px solid var(--linha);border-radius:6px;overflow:hidden;background:#F2F5FA;color:#1C1F25}
+.bar{background:#DCE2EC;padding:8px 12px;display:flex;gap:6px;align-items:center}
+.bar i{width:10px;height:10px;border-radius:50%;background:#A9B3C6;display:block;flex:none}
+.bar span{margin-left:10px;font-size:12px;color:#55627E;background:#F2F5FA;padding:2px 10px;border-radius:3px;font-family:var(--label)}
+.topline{background:var(--g-preto);color:#F2F5FA;font-family:var(--label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:7px 12px;font-weight:600}
+.topline b{color:#1EA7FF}
+.nav{display:flex;align-items:center;gap:20px;padding:10px 20px;flex-wrap:wrap;background:#fff;border-bottom:1px solid #DCE2EC}
+.nav svg{height:58px;width:auto}
+.nav .search{flex:1;min-width:160px;border:1.5px solid #1C1F25;border-radius:2px;padding:8px 12px;font-size:14px;color:#55627E}
+.nav .links{display:flex;gap:16px;font-family:var(--label);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+.nav .links .on{box-shadow:inset 0 -3px #0093E2}
+.banner{background:var(--g-preto);color:#F2F5FA;position:relative;overflow:hidden;padding:44px 28px;display:flex;flex-direction:column;gap:14px}
+.banner .ghost{position:absolute;right:-14px;bottom:-50px;font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(130px,20vw,240px);line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(30,167,255,.35);pointer-events:none}
+.banner h3{font-size:clamp(28px,4.4vw,46px);max-width:14ch;position:relative}
+.banner h3 em{color:#1EA7FF;font-style:inherit}
+.banner p{color:#B9C3D8;position:relative;max-width:40ch}
+.btn{align-self:flex-start;position:relative;font-family:var(--label);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:14px;background:var(--g-azul);color:#fff;padding:12px 22px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.picker{padding:22px 20px 8px;display:flex;flex-direction:column;gap:12px}
+.picker .cap{color:#55627E}
+.motos{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+@media (max-width:560px){.motos{grid-template-columns:1fr 1fr}.motos .m15{grid-column:1/-1}}
+.motos div{border:1.5px solid #C9D1E0;padding:14px;display:flex;flex-direction:column;gap:2px;background:#fff}
+.motos b{font-family:var(--display);font-style:italic;font-weight:800;font-size:24px;line-height:1}
+.motos span{font-size:13px;color:#55627E}
+.motos .m15{background:var(--g-preto);color:#F2F5FA;border-color:#1C1F25}
+.motos .m15 b{color:#1EA7FF}.motos .m15 span{color:#B9C3D8}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:16px;padding:16px 20px 28px}
+.card{background:#fff;border:1px solid #DCE2EC;border-radius:3px;display:flex;flex-direction:column;overflow:hidden}
+.card .img{aspect-ratio:1;background:linear-gradient(160deg,#EEF2F8,#D5DCE8);position:relative;display:grid;place-items:center}
+.card .img svg{width:62%;height:auto;opacity:.18}
+.card .tag{position:absolute;top:10px;left:10px;display:flex;gap:4px}
+.card .badge{font-size:11px;padding:2px 9px}
+.card .off{position:absolute;top:10px;right:10px;background:#FF6B1A;color:#1C1F25;font-family:var(--display);font-style:italic;font-weight:800;font-size:13px;padding:1px 7px}
+.card .body{padding:12px 14px 16px;display:flex;flex-direction:column;gap:5px}
+.card .name{font-weight:600;font-size:14px;line-height:1.35}
+.card .old{font-size:13px;color:#7B88A3;text-decoration:line-through}
+.card .price{font-family:var(--display);font-style:italic;font-weight:800;font-size:21px;font-variant-numeric:tabular-nums}
+.card .inst{font-size:12.5px;color:#55627E}
+
+/* DIAGNÓSTICO */
+.issues{display:flex;flex-direction:column;border-top:1px solid var(--linha)}
+.issue{display:grid;grid-template-columns:110px 1fr;gap:6px 24px;padding:18px 0;border-bottom:1px solid var(--linha)}
+.issue p{color:var(--aluminio);grid-column:2}
+.sev{font-family:var(--label);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;align-self:start;justify-self:start;grid-row:span 2}
+.sev.alta{background:var(--sinal);color:var(--noite)}
+.sev.media{border:1px solid var(--azul-claro);color:var(--azul-claro)}
+.sev.forte{background:var(--azul-claro);color:var(--noite)}
+@media (max-width:560px){.issue{grid-template-columns:1fr}.issue p{grid-column:1}.sev{grid-row:auto}}
+.recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:0 40px}
+.rec{padding:18px 0;border-top:1px solid var(--linha);display:flex;flex-direction:column;gap:6px}
+.rec p{color:var(--aluminio);font-size:15px}
+.note{border-left:3px solid var(--sinal);padding:6px 0 6px 18px;color:var(--aluminio);font-size:15px}
+.note b{color:var(--branco)}
+footer.band{padding-block:40px;border-top:1px solid var(--linha)}
+footer .wrap{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+footer svg{width:220px;height:auto}
+{{LOADER_CSS}}
+</style>
+{{SIMBOLOS}}
+
+{{FILTROS}}
+<header class="band hero">
+  <div class="sl-stage" id="demo" aria-label="Animação da tela de carregamento">
+    <div class="sl-track">
+      {{CENA}}
+      <div class="sl-road"></div>
+      {{RUSH}}
+      {{RIDER}}
+    </div>
+    <div class="sl-word">
+      <svg viewBox="238 395 1735 270" role="img" aria-label="Sandim R15 Store"><use href="#lg-texto" x="238" y="395" width="1735" height="270" style="--k:#F2F5FA;--b:#1EA7FF"/></svg>
+      <div class="sl-bar"><i></i></div>
+    </div>
+  </div>
+  <div class="hero-txt">
+    <span class="eyebrow">Identidade visual · versão 2 · out/2026</span>
+    <h1>A moto do logo carrega a loja</h1>
+    <p>O logo escolhido vira o centro da marca: vetorizado, com versões para fundo claro e escuro, e a própria moto animada na tela de carregamento do site.</p>
+    <button class="replay" id="replay" type="button">Ver a animação de novo</button>
+    <div class="phases" aria-label="Fases da animação">
+      <div class="phase" data-ph="is-enter"><span class="n">1 · ENTRA</span><h3>Corre para o centro</h3><p>Chega da esquerda com rastro de velocidade, que vai sumindo enquanto ela freia no meio da tela.</p></div>
+      <div class="phase" data-ph="is-idle"><span class="n">2 · RODA</span><h3>Fica correndo no centro</h3><p>Moto nítida no centro, rodas girando e o cenário passando atrás: montanhas devagar, árvores rápido. A barra mostra o progresso.</p></div>
+      <div class="phase" data-ph="is-exit"><span class="n">3 · SAI</span><h3>Arranca para a direita</h3><p>Empina, ganha rastro de velocidade e sai da tela. O site aparece por baixo.</p></div>
+    </div>
+  </div>
+</header>
+
+<section class="band alt">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Versões do logo</span>
+      <h2>O mesmo logo, pronto para qualquer fundo</h2>
+      <p class="muted">Redesenhado em vetor a partir da arte aprovada: fica nítido do favicon ao adesivo de 1 metro. Cores e formas foram mantidas.</p>
+    </div>
+    <div class="grid g2">
+      <div class="vers"><div class="tile t-white"><svg viewBox="0 0 2000 667" role="img" aria-label="Logo colorido"><use href="#logo" style="--k:#000;--b:#0093E2"/></svg></div><span class="cap">Principal · fundo branco</span></div>
+      <div class="vers"><div class="tile t-noite"><svg viewBox="0 0 2000 667" role="img" aria-label="Logo negativo"><use href="#logo" style="--k:#F2F5FA;--b:#1EA7FF"/></svg></div><span class="cap">Negativo · fundo escuro (site, loading, redes)</span></div>
+      <div class="vers"><div class="tile t-azul"><svg viewBox="0 0 2000 667" role="img" aria-label="Logo branco"><use href="#logo" style="--k:#fff;--b:#fff"/></svg></div><span class="cap">Branco · sobre azul, gravação, bordado</span></div>
+      <div class="vers"><div class="tile t-white"><svg viewBox="0 0 2000 667" role="img" aria-label="Logo grafite"><use href="#logo" style="--k:#000;--b:#000"/></svg></div><span class="cap">Grafite · adesivo de recorte, nota fiscal, carimbo</span></div>
+    </div>
+    <div class="grid g3">
+      <div class="vers"><div class="tile t-white"><svg viewBox="570 18 1050 425" role="img" aria-label="Só a moto"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:#000;--b:#0093E2"/></svg></div><span class="cap">Só a moto · selo, embalagem, marca d'água</span></div>
+      <div class="vers"><div class="tile t-noite"><svg viewBox="238 395 1735 270" role="img" aria-label="Só o nome"><use href="#lg-texto" x="238" y="395" width="1735" height="270" style="--k:#F2F5FA;--b:#1EA7FF"/></svg></div><span class="cap">Só o nome · rodapé, cabeçalho no celular</span></div>
+      <div class="vers"><div class="tile t-noite"><div class="icons">
+        <div class="app" style="width:96px;height:96px;border-radius:22%"><svg viewBox="570 18 1050 425"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:#F2F5FA;--b:#1EA7FF"/></svg></div>
+        <div class="app" style="width:64px;height:64px;border-radius:50%"><svg viewBox="570 18 1050 425"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:#F2F5FA;--b:#1EA7FF"/></svg></div>
+        <div class="app" style="width:32px;height:32px;border-radius:6px"><svg viewBox="570 18 1050 425"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:#F2F5FA;--b:#1EA7FF"/></svg></div>
+      </div></div><span class="cap">Ícone · perfil, app, favicon</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Paleta</span>
+      <h2>Preto fosco, azul Sandim e pista à noite</h2>
+      <p class="muted">As cores saem do próprio logo. O preto vira grafite fosco e cada cor tem um degradê vertical bem leve, só para dar volume. O roxo do tema atual deixa de existir.</p>
+    </div>
+    <div class="sws">
+      <div class="sw"><div class="c" style="background:var(--g-azul)"></div><div class="t"><b>Azul Sandim</b><code>#1AA6F2 → #0086D1</code><span>Logo, botões, R15</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--g-azulc)"></div><div class="t"><b>Azul farol</b><code>#4CBDFF → #169BEF</code><span>Azul em fundo escuro</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--g-preto);border-bottom:1px solid var(--linha)"></div><div class="t"><b>Preto fosco</b><code>#2A2D35 → #17191E</code><span>Logo, textos, faixas. Nunca preto puro</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--g-noite);border-bottom:1px solid var(--linha)"></div><div class="t"><b>Pista à noite</b><code>#0F1B3D → #091229</code><span>Loading, banners, rodapé</span></div></div>
+      <div class="sw"><div class="c" style="background:#F2F5FA"></div><div class="t"><b>Branco</b><code>#F2F5FA</code><span>Fundo da loja</span></div></div>
+      <div class="sw"><div class="c" style="background:#FF6B1A"></div><div class="t"><b>Laranja oferta</b><code>#FF6B1A</code><span>Só desconto e preço</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Tipografia</span>
+      <h2>Itálico pesado, igual ao logo</h2>
+      <p class="muted">Fontes gratuitas do Google Fonts que conversam com as letras do logo e funcionam direto no Shopify.</p>
+    </div>
+    <div>
+      <div class="type-row"><div class="cap">Kanit<br>ExtraBold itálico · títulos</div><div class="spec-a">Frente R6 para R15</div></div>
+      <div class="type-row"><div class="cap">Barlow<br>Regular · texto</div><div class="spec-b">Cada produto foi escolhido com base na experiência de quem usa, testa e vive essa moto no dia a dia.</div></div>
+      <div class="type-row"><div class="cap">Barlow Semi Condensed<br>Semibold · rótulos</div><div class="spec-c">Frete grátis · 12x · Linha R15</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Linhas de produto</span>
+      <h2>R15 em primeiro, R3 com lugar próprio</h2>
+      <p class="muted">Cada produto ganha um selo de compatibilidade no mesmo corte inclinado do logo. O azul fica reservado à R15.</p>
+    </div>
+    <div class="lines">
+      <div class="line-row"><span><span class="badge b-r15">R15</span></span><p class="muted">Linha principal. Selo azul, primeira opção no seletor de moto e no banner.</p></div>
+      <div class="line-row"><span><span class="badge b-r3">R3</span></span><p class="muted">Linha secundária. Selo branco, coleção própria e entrada no seletor "Qual é a sua moto?".</p></div>
+      <div class="line-row"><span><span class="badge b-sbm">SBM 250s</span></span><p class="muted">Linha ocasional, sem destaque na home.</p></div>
+      <div class="line-row"><span style="display:flex;gap:6px"><span class="badge b-r15">R15</span><span class="badge b-r3">R3</span></span><p class="muted">Peças que servem nas duas (suporte de celular, luvas, kits de limpeza) levam os dois selos.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Aplicação no site</span>
+      <h2>A loja com o logo novo</h2>
+      <p class="muted">Depois do loading, o visitante cai aqui. Produtos e preços são do catálogo atual.</p>
+    </div>
+    <div class="browser">
+      <div class="bar"><i></i><i></i><i></i><span>sandimr15.store</span></div>
+      <div class="topline">Frete grátis para todo o Brasil · <b>12x</b> no cartão</div>
+      <div class="nav">
+        <svg viewBox="0 0 2000 667" role="img" aria-label="Sandim R15 Store"><use href="#logo" style="--k:#000;--b:#0093E2"/></svg>
+        <div class="search">Buscar peça para sua R15…</div>
+        <div class="links"><span class="on">R15</span><span>R3</span><span>Vestuário</span><span>Canal</span></div>
+      </div>
+      <div class="banner">
+        <div class="ghost">R15</div>
+        <span class="badge b-r15" style="position:relative;align-self:flex-start">Linha R15</span>
+        <h3>Feito por quem <em>vive a R15.</em></h3>
+        <p>Acessórios escolhidos por quem usa a moto todo dia e mostra tudo no canal.</p>
+        <span class="btn">Ver peças da R15</span>
+      </div>
+      <div class="picker">
+        <span class="cap">Qual é a sua moto?</span>
+        <div class="motos">
+          <div class="m15"><b>R15</b><span>Todas as peças e kits</span></div>
+          <div><b>R3</b><span>Linha R3</span></div>
+          <div><b>Outras</b><span>SBM 250s e universais</span></div>
+        </div>
+      </div>
+      <div class="shelf">
+        <div class="card"><div class="img"><span class="tag"><span class="badge b-r15">R15</span></span><span class="off">−31%</span><svg viewBox="570 18 1050 425"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:#000;--b:#000"/></svg></div>
+          <div class="body"><span class="name">Escapamento SC Project completo · Yamaha YZF-R15</span><span class="old">R$ 1.299,90</span><span class="price">R$ 899,90</span><span class="inst">12x de R$ 91,20</span></div></div>
+        <div class="card"><div class="img"><span class="tag"><span class="badge b-r15">R15</span></span><span class="off">−23%</span><svg viewBox="570 18 1050 425"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:#000;--b:#000"/></svg></div>
+          <div class="body"><span class="name">Frente R6 para Yamaha YZF-R15</span><span class="old">R$ 649,90</span><span class="price">R$ 499,90</span><span class="inst">12x de R$ 50,65</span></div></div>
+        <div class="card"><div class="img"><span class="tag"><span class="badge b-r15">R15</span><span class="badge b-r3" style="background:#1C1F25;color:#F2F5FA">R3</span></span><svg viewBox="570 18 1050 425"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:#000;--b:#000"/></svg></div>
+          <div class="body"><span class="name">Suporte para celular com carregador · YZF-R15 e R3</span><span class="old">R$ 136,12</span><span class="price">R$ 69,90</span><span class="inst">12x de R$ 7,08</span></div></div>
+        <div class="card"><div class="img"><span class="tag"><span class="badge b-r15">R15</span></span><svg viewBox="570 18 1050 425"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:#000;--b:#000"/></svg></div>
+          <div class="body"><span class="name">Retrovisor Asa Esportivo · Yamaha YZF-R15</span><span class="price">R$ 199,90</span><span class="inst">12x de R$ 20,25</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Diagnóstico do site atual</span>
+      <h2>O que muda em relação ao sandimr15.store</h2>
+    </div>
+    <div class="issues">
+      <div class="issue"><span class="sev alta">Crítico</span><h3>Logo em baixa resolução</h3><p>O logo atual é um PNG de 260×75 px vindo de modelo do Canva. O novo vai em SVG, nítido em qualquer tela.</p></div>
+      <div class="issue"><span class="sev alta">Crítico</span><h3>Três paletas brigando</h3><p>Roxo do tema, ciano do logo antigo e verde-limão dos banners. Agora tudo sai do preto e azul do logo.</p></div>
+      <div class="issue"><span class="sev alta">Crítico</span><h3>Descontos que parecem inflados</h3><p>"De" quebrados como R$ 673,63 e descontos de 63% a 75%, junto com "Menor Preço Histórico 🏆" em vários títulos. Tira credibilidade.</p></div>
+      <div class="issue"><span class="sev media">Médio</span><h3>Home longa e repetida</h3><p>Cerca de 50 itens em "Mais vendidos", 45 em "Novidades" e 12 em "Ofertas", com os mesmos produtos três vezes.</p></div>
+      <div class="issue"><span class="sev media">Médio</span><h3>R3 escondida</h3><p>"Acessórios R3" é só mais uma categoria. Quem tem R3 não sabe se a loja é para ela.</p></div>
+      <div class="issue"><span class="sev media">Médio</span><h3>Nomes sem padrão e detalhes quebrados</h3><p>"Yamaha Yzf", "YZF R15", "YZF-R15" e emojis nos títulos; ícone quebrado no menu; banner de Mês dos Pais ainda no ar.</p></div>
+      <div class="issue"><span class="sev forte">Força</span><h3>O canal SandimR15</h3><p>A autoridade do Victor e do canal é o maior diferencial e hoje só aparece no fim da home.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Para o novo site</span>
+      <h2>Além do visual</h2>
+    </div>
+    <div class="recs">
+      <div class="rec"><h3>"Qual é a sua moto?" na home</h3><p>R15 em destaque, R3 e outras ao lado. Leva direto para a coleção certa.</p></div>
+      <div class="rec"><h3>Home enxuta</h3><p>Oito mais vendidos, uma vitrine de lançamentos e uma de kits, sem repetição.</p></div>
+      <div class="rec"><h3>Padrão de nome</h3><p>"Peça · Yamaha YZF-R15" e "Peça · Yamaha YZF-R3", sem emoji.</p></div>
+      <div class="rec"><h3>Preço "de" honesto</h3><p>Desconto só onde existe. "Menor preço histórico" vira selo raro.</p></div>
+      <div class="rec"><h3>O canal na frente</h3><p>Faixa com o Victor e vídeos de instalação ligados a cada produto.</p></div>
+      <div class="rec"><h3>Loading uma vez por visita</h3><p>A animação aparece na primeira página da sessão e some sozinha quando o site termina de carregar.</p></div>
+    </div>
+    <p class="note"><b>Marca registrada.</b> "Yamaha", "YZF", "R15" e "R3" aparecem só como compatibilidade ("para Yamaha YZF-R15"). Não usar o diapasão da Yamaha em nenhuma peça da marca.</p>
+  </div>
+</section>
+
+<footer class="band">
+  <div class="wrap">
+    <svg viewBox="0 0 2000 667" role="img" aria-label="Sandim R15 Store"><use href="#logo" style="--k:#F2F5FA;--b:#1EA7FF"/></svg>
+    <span class="cap">Proposta de identidade · versão 2</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var stage=document.getElementById('demo'), phases=document.querySelectorAll('.phase'), run=0;
+  var wait=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
+  function spd(n){ stage.dataset.spd=n; }
+  function set(c){
+    stage.classList.remove('is-enter','is-idle','is-exit');
+    if(c){ void stage.offsetWidth; stage.classList.add(c); }
+    phases.forEach(function(p){ p.classList.toggle('on', p.dataset.ph===c); });
+  }
+  async function loop(id){
+    stage.style.setProperty('--sl-idle','2400ms');
+    var ok=function(){return id===run};
+    while(ok()){
+      set('is-enter'); spd(3); await wait(380); if(!ok()) return;
+      spd(2); await wait(260); if(!ok()) return;
+      spd(1); await wait(220); if(!ok()) return;
+      spd(0); await wait(140); if(!ok()) return;
+      set('is-idle'); await wait(2400); if(!ok()) return;
+      set('is-exit'); spd(1); await wait(120); spd(2); await wait(160); spd(3); await wait(720); if(!ok()) return;
+      set(''); spd(0); await wait(500);
+    }
+  }
+  document.getElementById('replay').addEventListener('click',function(){ loop(++run); });
+  loop(++run);
+})();
+</script>

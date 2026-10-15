@@ -1,0 +1,23 @@
+<div class="wrap pagina">
+  <h1>{{ page.title | escape }}</h1>
+  <div class="rte">{{ page.content }}</div>
+  {%- if section.settings.mostrar_contato -%}
+    <div class="contato-box">
+      <b>Atendimento ao cliente</b>
+      <p>
+        {%- if section.settings.email != blank -%}E-mail: <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a><br>{%- endif -%}
+        {%- if settings.whatsapp_numero != blank -%}WhatsApp: <a href="https://wa.me/{{ settings.whatsapp_numero | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')' }}" target="_blank" rel="noopener">{{ settings.whatsapp_exibido }}</a>{%- endif -%}
+      </p>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Página",
+  "settings": [
+    { "type": "checkbox", "id": "mostrar_contato", "label": "Mostrar caixa de atendimento", "default": true },
+    { "type": "text", "id": "email", "label": "E-mail de atendimento", "default": "sandimcomercial@gmail.com" }
+  ]
+}
+{% endschema %}

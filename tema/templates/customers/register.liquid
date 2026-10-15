@@ -1,0 +1,11 @@
+<div class="wrap pagina conta">
+  <h1>Criar conta</h1>
+  {%- form 'create_customer' -%}
+    {{ form.errors | default_errors }}
+    <label for="nome">Nome</label><input id="nome" type="text" name="customer[first_name]" autocomplete="given-name">
+    <label for="sobrenome">Sobrenome</label><input id="sobrenome" type="text" name="customer[last_name]" autocomplete="family-name">
+    <label for="email">E-mail</label><input id="email" type="email" name="customer[email]" autocomplete="email" required>
+    <label for="senha">Senha</label><input id="senha" type="password" name="customer[password]" autocomplete="new-password" required>
+    <button class="btn cheio" type="submit">Criar conta</button>
+  {%- endform -%}
+</div>

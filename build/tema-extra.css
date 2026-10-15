@@ -1,0 +1,68 @@
+
+/* ===== ajustes do tema Shopify ===== */
+.pular{position:absolute;left:-9999px;top:8px;z-index:200;background:#fff;padding:10px 14px;border-radius:3px}
+.pular:focus{left:12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic-whats .f{fill:currentColor;stroke:none}
+.eyebrow.claro{color:var(--azul-claro)}
+.logo img{height:58px;width:auto;display:block;transition:height .2s}
+.hero-moto img{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 30px rgba(0,0,0,.45))}
+.moto-card img{position:absolute;right:-6%;bottom:-6%;width:62%;opacity:.12}
+.moto-card.r15 img{opacity:.22;filter:invert(1)}
+.canal .visual img{width:100%;height:auto;opacity:.95}
+.rod-marca img{width:230px;height:auto;margin-bottom:18px}
+.migalha.escura{color:var(--apoio);padding-top:20px}
+.esgotado{position:absolute;bottom:8px;left:8px;background:var(--g-grafite);color:#fff;font-family:var(--label);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+.card .ft img{width:100%;height:100%;object-fit:cover}
+.beneficios p{margin:0}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.paginas{display:flex;justify-content:center;align-items:center;gap:14px;padding-top:28px;color:var(--apoio);font-size:14px}
+.busca-pagina{margin:20px auto 24px;max-width:640px}
+.opcao{border:0;padding:0;margin:0}
+.opcao legend{padding:0}
+.variantes .var{border:1.5px solid var(--borda);background:#fff;border-radius:3px;padding:6px;display:flex;align-items:center;gap:8px;font-size:14px;max-width:100%;cursor:pointer;min-height:44px}
+.variantes .var input{position:absolute;opacity:0;pointer-events:none}
+.variantes .var img{width:40px;height:40px;object-fit:cover;border-radius:2px}
+.variantes .var span{padding-inline:4px;text-align:left}
+.variantes .var.on{border-color:var(--azul);box-shadow:0 0 0 1px var(--azul)}
+.variantes .var.indisponivel{opacity:.45}
+.variantes .var:has(input:focus-visible){outline:2px solid var(--azul);outline-offset:2px}
+.btn[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(.4)}
+.trilho .midia{flex:0 0 100%;scroll-snap-align:start;display:grid;place-items:center;background:#000}
+.trilho .midia video,.trilho .midia iframe{width:100%;height:100%}
+.rte{color:#3A4358;font-size:15.5px;max-width:65ch}
+.rte img{height:auto;border-radius:4px;margin-block:10px}
+.rte p{margin:0 0 12px}
+.rte ul,.rte ol{padding-left:20px}
+.desc.rte{white-space:normal}
+.pagina .rte{font-size:17px}
+.news-form .news-ok{color:#9BE7B8;margin:0}
+.news-erro{color:#FFB199;font-size:14px}
+.pags .pag-ic{width:40px;height:26px;border-radius:3px}
+.rodape-aviso p{margin:0;font-size:13px;color:#8C9AB8;max-width:110ch}
+.link-carrinho{text-align:center;color:var(--apoio);text-decoration:underline}
+.gav-corpo .vazio{padding:40px 0}
+.item .rm{border:0;background:none;color:var(--apoio);font-size:13px;text-decoration:underline;padding:4px 0}
+.pagina-carrinho .item{grid-template-columns:72px 1fr auto}
+.pagina-carrinho .qtd input{width:64px;border:1.5px solid var(--borda);border-radius:3px;padding:6px;font-size:16px}
+.acoes-carrinho{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.conta form{display:flex;flex-direction:column;gap:6px;max-width:440px}
+.conta label{font-weight:600;font-size:14px;margin-top:8px}
+.conta input,.conta select{font:inherit;font-size:16px;border:1.5px solid var(--borda);border-radius:3px;padding:11px 12px;background:#fff}
+.conta .btn{margin-top:12px}
+.conta .check{display:flex;gap:8px;align-items:center;font-weight:500}
+.conta #recuperar{margin-top:32px}
+.item-pedido{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--borda)}
+.codigo{font-size:24px;letter-spacing:.1em}
+.errors{color:#B3261E;font-size:14px}
+#sandim-loader{position:fixed;inset:0;z-index:999;transition:opacity .45s ease,visibility 0s linear .45s}
+#sandim-loader.is-done{opacity:0;visibility:hidden}
+#sandim-loader .sl-corpo{position:absolute;inset:0;width:100%;height:100%}
+#sandim-loader .sl-word img{display:block;width:100%;height:auto}
+@media (max-width:720px){
+  .logo img{height:44px}
+  .hdr.min .logo img{height:34px}
+  .variantes .var{flex:1 1 calc(50% - 4px)}
+  .pagina-carrinho .acoes-carrinho .btn{flex:1}
+}

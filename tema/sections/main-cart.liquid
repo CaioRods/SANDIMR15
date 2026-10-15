@@ -1,0 +1,35 @@
+<div class="wrap pagina pagina-carrinho">
+  <h1>Seu carrinho</h1>
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" class="carrinho-form">
+      {%- for item in cart.items -%}
+        <div class="item">
+          <a href="{{ item.url }}">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: '' }}{%- endif -%}</a>
+          <div>
+            <a class="nm" href="{{ item.url }}">{% render 'titulo-limpo', titulo: item.product.title %}</a>
+            {%- unless item.product.has_only_default_variant -%}<div class="vr">{{ item.variant.title }}</div>{%- endunless -%}
+            <div class="qtd">
+              <label class="sr" for="qtd-{{ forloop.index }}">Quantidade</label>
+              <input id="qtd-{{ forloop.index }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" inputmode="numeric">
+            </div>
+            <a class="mini" href="{{ item.url_to_remove }}">Remover</a>
+          </div>
+          <div class="pr">{{ item.final_line_price | money }}</div>
+        </div>
+      {%- endfor -%}
+      <div class="tot"><span>Subtotal</span><b>{{ cart.total_price | money }}</b></div>
+      <p class="mini">Frete grátis · ou 12x de {{ cart.total_price | times: settings.parcela_coef | money }}</p>
+      <div class="acoes-carrinho">
+        <button class="btn claro" type="submit" name="update">Atualizar</button>
+        <button class="btn" type="submit" name="checkout">Finalizar compra</button>
+      </div>
+    </form>
+  {%- else -%}
+    <p>Seu carrinho está vazio.</p>
+    <p><a class="btn" href="{{ routes.all_products_collection_url }}">Ver produtos</a></p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{ "name": "Carrinho", "settings": [] }
+{% endschema %}

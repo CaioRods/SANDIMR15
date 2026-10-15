@@ -1,0 +1,80 @@
+{%- paginate collection.products by section.settings.por_pagina -%}
+{%- assign fundo = collection.image | default: collection.products.first.featured_media.preview_image -%}
+<section class="col-topo">
+  {%- if fundo -%}<div class="fundo" style="background-image:url({{ fundo | image_url: width: 600 }})"></div>{%- endif -%}
+  <div class="wrap">
+    <nav class="migalha" aria-label="Você está em"><a href="{{ routes.root_url }}">Início</a> / {{ collection.title | escape }}</nav>
+    <div class="col-tit"><h1>{{ collection.title | escape }}</h1><span class="qtd-badge">{{ collection.products_count }} produtos</span></div>
+    {%- if collection.description != blank -%}<p>{{ collection.description | strip_html | truncate: 160 }}</p>{%- endif -%}
+  </div>
+</section>
+
+<div class="wrap">
+  {%- assign handles = section.settings.categorias | split: ',' -%}
+  {%- if handles.size > 0 -%}
+    <nav class="catalogo-nav" aria-label="Outras categorias">
+      {%- for h in handles -%}
+        {%- assign hh = h | strip -%}
+        {%- assign col = collections[hh] -%}
+        {%- if col and col.products_count > 0 -%}
+          {%- assign moto = false -%}
+          {%- if hh == 'acessorios' or hh == 'acessorios-r3' -%}{%- assign moto = true -%}{%- endif -%}
+          {%- assign foto = col.image | default: col.products.first.featured_media.preview_image -%}
+          <a class="cn{% if moto %} moto{% endif %}{% if col.handle == collection.handle %} on{% endif %}" href="{{ col.url }}"{% if col.handle == collection.handle %} aria-current="page"{% endif %}>
+            <span class="bola">
+              {%- if moto -%}<b>{% if hh == 'acessorios' %}R15{% else %}R3{% endif %}</b>
+              {%- elsif foto -%}{{ foto | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+            </span>
+            <span>{% if hh == 'acessorios' %}Linha R15{% elsif hh == 'acessorios-r3' %}Linha R3{% else %}{{ col.title | escape }}{% endif %}</span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+  {%- endif -%}
+
+  <div class="filtros">
+    <div class="seg" data-filtro-moto role="group" aria-label="Filtrar por moto">
+      <button type="button" class="on" data-m="" aria-pressed="true">Todas</button>
+      <button type="button" data-m="R15" aria-pressed="false">R15</button>
+      <button type="button" data-m="R3" aria-pressed="false">R3</button>
+    </div>
+    <label class="ordem" for="ordem"><span class="sr">Ordenar</span>
+      <select id="ordem" data-ordem>
+        {%- assign ordem = collection.sort_by | default: collection.default_sort_by -%}
+        {%- for opcao in collection.sort_options -%}
+          <option value="{{ opcao.value }}"{% if opcao.value == ordem %} selected{% endif %}>{{ opcao.name }}</option>
+        {%- endfor -%}
+      </select>
+    </label>
+  </div>
+
+  <div class="res-cont" data-res-cont>{{ collection.products.size }} produtos nesta página</div>
+  <div class="grade" id="lista">
+    {%- for produto in collection.products -%}
+      {% render 'card-produto', product: produto %}
+    {%- else -%}
+      <p class="vazio">Nenhum produto nesta coleção ainda.</p>
+    {%- endfor -%}
+  </div>
+  <p class="vazio" id="lista-vazia" hidden>Nenhum produto desta página serve para essa moto. Veja a próxima página ou escolha "Todas".</p>
+
+  {%- if paginate.pages > 1 -%}
+    <nav class="paginas" aria-label="Páginas">
+      {%- if paginate.previous -%}<a class="chip" href="{{ paginate.previous.url }}">← Anterior</a>{%- endif -%}
+      <span>Página {{ paginate.current_page }} de {{ paginate.pages }}</span>
+      {%- if paginate.next -%}<a class="chip" href="{{ paginate.next.url }}">Próxima →</a>{%- endif -%}
+    </nav>
+  {%- endif -%}
+  <div style="height:48px"></div>
+</div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Coleção",
+  "settings": [
+    { "type": "range", "id": "por_pagina", "label": "Produtos por página", "min": 12, "max": 48, "step": 4, "default": 48 },
+    { "type": "text", "id": "categorias", "label": "Faixa de categorias (identificadores, separados por vírgula)", "default": "acessorios, acessorios-r3, suporte-sliders, estetica, escapamentos, desempenho, manutencao, adesivos, vestuario, kits-com-desconto" }
+  ]
+}
+{% endschema %}

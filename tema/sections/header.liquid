@@ -1,0 +1,87 @@
+<div class="topline">
+  <span>{{ section.settings.aviso_1 }}</span>
+  {%- if section.settings.aviso_2 != blank -%}<span class="dot">·</span><span>{{ section.settings.aviso_2 }}</span>{%- endif -%}
+  {%- if section.settings.aviso_3 != blank -%}<span class="dot hide-sm">·</span><span class="hide-sm">{{ section.settings.aviso_3 }}</span>{%- endif -%}
+</div>
+
+<header class="hdr" id="topo">
+  <div class="hdr-in">
+    <button class="icon-btn menu-btn" type="button" data-abrir="menu" aria-label="Abrir menu">{% render 'icone', nome: 'menu' %}</button>
+    <a class="logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}, página inicial">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 400 | image_tag: alt: shop.name, widths: '200, 300, 400' }}
+      {%- else -%}
+        <img src="{{ 'logo-cores.svg' | asset_url }}" alt="{{ shop.name }}" width="2000" height="667">
+      {%- endif -%}
+    </a>
+    <form class="busca" action="{{ routes.search_url }}" method="get" role="search">
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
+      <input id="busca-q" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ section.settings.busca_placeholder | escape }}" autocomplete="off" aria-label="Buscar produtos">
+      <button type="submit" aria-label="Buscar">{% render 'icone', nome: 'busca' %}</button>
+    </form>
+    <nav class="acoes">
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="icon-btn hide-sm" href="{{ routes.account_url }}" aria-label="Minha conta">{% render 'icone', nome: 'conta' %}</a>
+      {%- endif -%}
+      <button class="icon-btn carrinho-btn" type="button" data-abrir="carrinho" aria-label="Abrir carrinho">
+        {% render 'icone', nome: 'carrinho' %}
+        <span class="badge-n" data-qtd-carrinho{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+      </button>
+    </nav>
+  </div>
+  <nav class="cats" aria-label="Categorias">
+    {%- for block in section.blocks -%}
+      {%- assign col = block.settings.colecao -%}
+      {%- if col != blank -%}
+        <a href="{{ col.url }}" class="{% if block.settings.destaque %}r15{% endif %}{% if collection.handle == col.handle %} on{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.rotulo | default: col.title }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  </nav>
+</header>
+
+<aside class="gaveta menu-lat" id="menu" aria-label="Menu" hidden>
+  <div class="gav-topo">
+    <h2>Menu</h2>
+    <button class="icon-btn" type="button" data-fechar aria-label="Fechar menu">{% render 'icone', nome: 'fechar' %}</button>
+  </div>
+  <div class="gav-corpo">
+    {%- for block in section.blocks -%}
+      {%- assign col = block.settings.colecao -%}
+      {%- if col != blank -%}
+        <a href="{{ col.url }}">{{ block.settings.rotulo | default: col.title }}<small>{% if block.settings.descricao != blank %}{{ block.settings.descricao }}{% else %}{{ col.products_count }} produtos{% endif %}</small></a>
+      {%- endif -%}
+    {%- endfor -%}
+    {%- for link in section.settings.menu_extra.links -%}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {%- endfor -%}
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Cabeçalho",
+  "class": "secao-cabecalho",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (opcional)", "info": "Sem imagem, usa o logo vetorizado da Sandim." },
+    { "type": "text", "id": "aviso_1", "label": "Faixa do topo: texto 1", "default": "Frete grátis para todo o Brasil" },
+    { "type": "text", "id": "aviso_2", "label": "Faixa do topo: texto 2", "default": "12x no cartão" },
+    { "type": "text", "id": "aviso_3", "label": "Faixa do topo: texto 3 (só no computador)", "default": "Envio com rastreio" },
+    { "type": "text", "id": "busca_placeholder", "label": "Texto da busca", "default": "Buscar peça para sua R15 ou R3" },
+    { "type": "link_list", "id": "menu_extra", "label": "Links extras no menu lateral", "default": "footer" }
+  ],
+  "blocks": [
+    {
+      "type": "categoria",
+      "name": "Categoria",
+      "settings": [
+        { "type": "collection", "id": "colecao", "label": "Coleção" },
+        { "type": "text", "id": "rotulo", "label": "Nome no menu" },
+        { "type": "text", "id": "descricao", "label": "Descrição no menu lateral" },
+        { "type": "checkbox", "id": "destaque", "label": "Destacar em azul (linha R15)", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 14
+}
+{% endschema %}

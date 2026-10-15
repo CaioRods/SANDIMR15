@@ -1,0 +1,12 @@
+{%- comment -%}
+  Título sem emoji e sem chamadas repetidas ("Menor Preço Histórico", "Novidade"), com YZF padronizado.
+  O ideal é corrigir os títulos no admin; isto só garante que a vitrine fique limpa enquanto isso.
+{%- endcomment -%}
+{%- liquid
+  assign tl = titulo
+  assign tl = tl | replace: ' | Menor Preço Histórico 🏆', '' | replace: ' | Menor Preço Histórico', '' | replace: '| Menor Preço Histórico', ''
+  assign tl = tl | replace: ' | Novidade 🏆', '' | replace: ' | Novidade', '' | replace: '🏆', ''
+  assign tl = tl | replace: 'Yamaha Yzf', 'Yamaha YZF' | replace: 'YAMAHA YZF', 'Yamaha YZF' | replace: 'YZF R15', 'YZF-R15' | replace: 'Yzf R15', 'YZF-R15' | replace: 'YZF R3', 'YZF-R3'
+  assign tl = tl | strip
+-%}
+{{- tl | escape -}}

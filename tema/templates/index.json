@@ -1,0 +1,82 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "chamada": "Loja oficial do canal SandimR15",
+        "titulo": "Feito por quem",
+        "titulo_destaque": "vive a R15.",
+        "texto": "Acessórios para Yamaha R15 e R3 escolhidos e usados por quem anda com a moto todo dia. Frete grátis para todo o Brasil.",
+        "botao_1": "Ver peças da R15",
+        "link_1": "shopify://collections/acessorios",
+        "botao_2": "Linha R3",
+        "link_2": "shopify://collections/acessorios-r3",
+        "cenario": true
+      }
+    },
+    "beneficios": {
+      "type": "beneficios",
+      "blocks": {
+        "b1": { "type": "beneficio", "settings": { "icone": "caminhao", "titulo": "Frete grátis", "texto": "Para todo o Brasil" } },
+        "b2": { "type": "beneficio", "settings": { "icone": "cartao", "titulo": "Até 12x", "texto": "No cartão de crédito" } },
+        "b3": { "type": "beneficio", "settings": { "icone": "escudo", "titulo": "Compra segura", "texto": "Checkout da Shopify" } },
+        "b4": { "type": "beneficio", "settings": { "icone": "video", "titulo": "Testado no canal", "texto": "Quem vende, usa" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    },
+    "motos": {
+      "type": "seletor-moto",
+      "settings": { "chamada": "Comece por aqui", "titulo": "Qual é a sua moto?" },
+      "blocks": {
+        "m1": { "type": "moto", "settings": { "nome": "R15", "colecao": "acessorios", "texto": "", "botao": "Ver linha R15", "destaque": true } },
+        "m2": { "type": "moto", "settings": { "nome": "R3", "colecao": "acessorios-r3", "texto": "", "botao": "Ver linha R3", "destaque": false } },
+        "m3": { "type": "moto", "settings": { "nome": "SBM", "colecao": "sbm-250s", "texto": "Acessórios para SBM 250s", "botao": "Ver", "destaque": false } }
+      },
+      "block_order": ["m1", "m2", "m3"]
+    },
+    "mais_vendidos": {
+      "type": "vitrine",
+      "settings": { "titulo": "Mais vendidos", "subtitulo": "O que mais sai para a R15", "colecao": "mais-vendidos", "limite": 10, "carrossel": true, "fundo_branco": false }
+    },
+    "categorias": {
+      "type": "categorias",
+      "settings": { "titulo": "Compre por categoria" },
+      "blocks": {
+        "k1": { "type": "categoria", "settings": { "colecao": "suporte-sliders", "rotulo": "Proteção" } },
+        "k2": { "type": "categoria", "settings": { "colecao": "estetica", "rotulo": "Estética" } },
+        "k3": { "type": "categoria", "settings": { "colecao": "escapamentos", "rotulo": "Desempenho" } },
+        "k4": { "type": "categoria", "settings": { "colecao": "desempenho", "rotulo": "Segurança" } },
+        "k5": { "type": "categoria", "settings": { "colecao": "manutencao", "rotulo": "Manutenção" } },
+        "k6": { "type": "categoria", "settings": { "colecao": "adesivos", "rotulo": "Adesivos" } },
+        "k7": { "type": "categoria", "settings": { "colecao": "vestuario", "rotulo": "Vestuário" } },
+        "k8": { "type": "categoria", "settings": { "colecao": "kits-com-desconto", "rotulo": "Kits" } }
+      },
+      "block_order": ["k1", "k2", "k3", "k4", "k5", "k6", "k7", "k8"]
+    },
+    "canal": {
+      "type": "canal",
+      "settings": {
+        "chamada": "Do canal para a sua garagem",
+        "titulo": "A loja de quem vive a R15 no dia a dia",
+        "texto": "O canal SandimR15 virou referência em dicas, análises e solução de problemas da R15. A loja nasceu dali: cada peça foi escolhida por quem usa a moto e mostra tudo em vídeo.",
+        "botao": "Conheça a história",
+        "link": "shopify://pages/quem-somos"
+      },
+      "blocks": {
+        "n1": { "type": "numero", "settings": { "numero": "R15 + R3", "rotulo": "Linhas atendidas" } },
+        "n2": { "type": "numero", "settings": { "numero": "12x", "rotulo": "No cartão" } },
+        "n3": { "type": "numero", "settings": { "numero": "Grátis", "rotulo": "Frete para o Brasil" } }
+      },
+      "block_order": ["n1", "n2", "n3"]
+    },
+    "kits": {
+      "type": "vitrine",
+      "settings": { "titulo": "Kits com desconto", "subtitulo": "Combinações prontas com preço especial", "colecao": "kits-com-desconto", "limite": 6, "carrossel": true, "fundo_branco": false }
+    },
+    "lancamentos": {
+      "type": "vitrine",
+      "settings": { "titulo": "Lançamentos", "subtitulo": "Acabou de chegar na loja", "colecao": "news", "limite": 10, "carrossel": true, "fundo_branco": false }
+    }
+  },
+  "order": ["hero", "beneficios", "motos", "mais_vendidos", "categorias", "canal", "kits", "lancamentos"]
+}

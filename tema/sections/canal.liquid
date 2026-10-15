@@ -1,0 +1,50 @@
+<section class="canal">
+  <div class="wrap canal-in">
+    <div class="txt">
+      {%- if section.settings.chamada != blank -%}<span class="eyebrow claro">{{ section.settings.chamada }}</span>{%- endif -%}
+      <h2>{{ section.settings.titulo }}</h2>
+      <p>{{ section.settings.texto }}</p>
+      {%- if section.blocks.size > 0 -%}
+        <div class="num">
+          {%- for block in section.blocks -%}
+            <div {{ block.shopify_attributes }}><b>{{ block.settings.numero }}</b><span>{{ block.settings.rotulo }}</span></div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+      <div class="ctas">
+        {%- if section.settings.botao != blank -%}<a class="btn" href="{{ section.settings.link }}">{{ section.settings.botao }}</a>{%- endif -%}
+        {%- if section.settings.botao_2 != blank -%}<a class="btn claro" href="{{ section.settings.link_2 }}" target="_blank" rel="noopener">{{ section.settings.botao_2 }}</a>{%- endif -%}
+      </div>
+    </div>
+    <div class="visual">
+      {%- if section.settings.imagem != blank -%}
+        {{ section.settings.imagem | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 900', alt: '' }}
+      {%- else -%}
+        <img src="{{ 'moto-negativo.svg' | asset_url }}" alt="" width="1050" height="425" loading="lazy">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Faixa do canal",
+  "settings": [
+    { "type": "text", "id": "chamada", "label": "Chamada pequena", "default": "Do canal para a sua garagem" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "A loja de quem vive a R15 no dia a dia" },
+    { "type": "textarea", "id": "texto", "label": "Texto", "default": "O canal SandimR15 virou referência em dicas, análises e solução de problemas da R15. A loja nasceu dali: cada peça foi escolhida por quem usa a moto e mostra tudo em vídeo." },
+    { "type": "text", "id": "botao", "label": "Botão", "default": "Conheça a história" },
+    { "type": "url", "id": "link", "label": "Link do botão" },
+    { "type": "text", "id": "botao_2", "label": "Botão do canal (opcional)" },
+    { "type": "url", "id": "link_2", "label": "Link do canal no YouTube" },
+    { "type": "image_picker", "id": "imagem", "label": "Foto (opcional)", "info": "Uma foto do Victor com a moto funciona bem aqui." }
+  ],
+  "blocks": [
+    { "type": "numero", "name": "Número", "settings": [
+      { "type": "text", "id": "numero", "label": "Número", "default": "R15 + R3" },
+      { "type": "text", "id": "rotulo", "label": "Rótulo", "default": "Linhas atendidas" } ] }
+  ],
+  "max_blocks": 3,
+  "presets": [{ "name": "Faixa do canal" }]
+}
+{% endschema %}

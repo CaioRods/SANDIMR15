@@ -1,0 +1,36 @@
+{%- assign col = section.settings.colecao -%}
+<section class="secao{% if section.settings.fundo_branco %} branca{% endif %}">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>{{ section.settings.titulo }}</h2>
+        {%- if section.settings.subtitulo != blank -%}<p>{{ section.settings.subtitulo }}</p>{%- endif -%}
+      </div>
+      {%- if col != blank -%}<a class="ver-todos" href="{{ col.url }}">Ver todos</a>{%- endif -%}
+    </div>
+    <div class="grade{% if section.settings.carrossel %} carrossel{% endif %}">
+      {%- if col != blank -%}
+        {%- for produto in col.products limit: section.settings.limite -%}
+          {% render 'card-produto', product: produto %}
+        {%- endfor -%}
+      {%- else -%}
+        <p class="vazio">Escolha uma coleção para esta vitrine no personalizador.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vitrine de produtos",
+  "settings": [
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Mais vendidos" },
+    { "type": "text", "id": "subtitulo", "label": "Subtítulo" },
+    { "type": "collection", "id": "colecao", "label": "Coleção" },
+    { "type": "range", "id": "limite", "label": "Quantidade de produtos", "min": 2, "max": 16, "step": 1, "default": 10 },
+    { "type": "checkbox", "id": "carrossel", "label": "Carrossel com arraste no celular", "default": true },
+    { "type": "checkbox", "id": "fundo_branco", "label": "Fundo branco", "default": false }
+  ],
+  "presets": [{ "name": "Vitrine de produtos" }]
+}
+{% endschema %}

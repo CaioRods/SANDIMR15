@@ -1,0 +1,43 @@
+<section class="hero">
+  {%- if section.settings.cenario -%}
+    <div class="sl-scene" aria-hidden="true"><i class="sl-mt1"></i><i class="sl-mt2"></i><i class="sl-arv"></i></div>
+  {%- endif -%}
+  <div class="road" aria-hidden="true"></div>
+  <div class="hero-in">
+    <div class="hero-txt">
+      {%- if section.settings.chamada != blank -%}<span class="eyebrow claro">{{ section.settings.chamada }}</span>{%- endif -%}
+      <h1>{{ section.settings.titulo }} <em>{{ section.settings.titulo_destaque }}</em></h1>
+      {%- if section.settings.texto != blank -%}<p>{{ section.settings.texto }}</p>{%- endif -%}
+      <div class="ctas">
+        {%- if section.settings.botao_1 != blank -%}<a class="btn" href="{{ section.settings.link_1 | default: routes.all_products_collection_url }}">{{ section.settings.botao_1 }}</a>{%- endif -%}
+        {%- if section.settings.botao_2 != blank -%}<a class="btn claro" href="{{ section.settings.link_2 | default: routes.all_products_collection_url }}">{{ section.settings.botao_2 }}</a>{%- endif -%}
+      </div>
+    </div>
+    <div class="hero-moto">
+      {%- if section.settings.imagem != blank -%}
+        {{ section.settings.imagem | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1200', sizes: '(max-width: 820px) 92vw, 640px', alt: '' }}
+      {%- else -%}
+        <img src="{{ 'moto-negativo.svg' | asset_url }}" alt="" width="1050" height="425">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Banner principal",
+  "settings": [
+    { "type": "text", "id": "chamada", "label": "Chamada pequena", "default": "Loja oficial do canal SandimR15" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Feito por quem" },
+    { "type": "text", "id": "titulo_destaque", "label": "Título em azul", "default": "vive a R15." },
+    { "type": "textarea", "id": "texto", "label": "Texto", "default": "Acessórios para Yamaha R15 e R3 escolhidos e usados por quem anda com a moto todo dia. Frete grátis para todo o Brasil." },
+    { "type": "text", "id": "botao_1", "label": "Botão 1", "default": "Ver peças da R15" },
+    { "type": "url", "id": "link_1", "label": "Link do botão 1" },
+    { "type": "text", "id": "botao_2", "label": "Botão 2", "default": "Linha R3" },
+    { "type": "url", "id": "link_2", "label": "Link do botão 2" },
+    { "type": "image_picker", "id": "imagem", "label": "Imagem da direita (opcional)", "info": "Sem imagem, usa a moto do logo." },
+    { "type": "checkbox", "id": "cenario", "label": "Montanhas e árvores passando", "default": true }
+  ],
+  "presets": [{ "name": "Banner principal" }]
+}
+{% endschema %}

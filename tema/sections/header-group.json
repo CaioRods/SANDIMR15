@@ -1,0 +1,30 @@
+{
+  "type": "header",
+  "name": "Cabeçalho",
+  "sections": {
+    "cabecalho": {
+      "type": "header",
+      "blocks": {
+        "c1": { "type": "categoria", "settings": { "colecao": "acessorios", "rotulo": "R15", "descricao": "Tudo para a sua Yamaha R15", "destaque": true } },
+        "c2": { "type": "categoria", "settings": { "colecao": "acessorios-r3", "rotulo": "R3", "descricao": "Linha para Yamaha R3" } },
+        "c3": { "type": "categoria", "settings": { "colecao": "suporte-sliders", "rotulo": "Proteção", "descricao": "Sliders, protetores e crashbar" } },
+        "c4": { "type": "categoria", "settings": { "colecao": "estetica", "rotulo": "Estética", "descricao": "Carenagens, piscas, lanternas e retrovisores" } },
+        "c5": { "type": "categoria", "settings": { "colecao": "escapamentos", "rotulo": "Desempenho", "descricao": "Escapamentos e filtros" } },
+        "c6": { "type": "categoria", "settings": { "colecao": "desempenho", "rotulo": "Segurança", "descricao": "Travas, iluminação e segurança" } },
+        "c7": { "type": "categoria", "settings": { "colecao": "manutencao", "rotulo": "Manutenção", "descricao": "Relação, pastilhas, limpeza e ferramentas" } },
+        "c8": { "type": "categoria", "settings": { "colecao": "adesivos", "rotulo": "Adesivos", "descricao": "Kits completos, frisos e proteção de tanque" } },
+        "c9": { "type": "categoria", "settings": { "colecao": "vestuario", "rotulo": "Vestuário", "descricao": "Camisetas, moletons e luvas" } },
+        "c10": { "type": "categoria", "settings": { "colecao": "kits-com-desconto", "rotulo": "Kits", "descricao": "Combinações com preço especial" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10"],
+      "settings": {
+        "aviso_1": "Frete grátis para todo o Brasil",
+        "aviso_2": "12x no cartão",
+        "aviso_3": "Envio com rastreio",
+        "busca_placeholder": "Buscar peça para sua R15 ou R3",
+        "menu_extra": "footer"
+      }
+    }
+  },
+  "order": ["cabecalho"]
+}

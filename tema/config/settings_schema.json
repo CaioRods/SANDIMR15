@@ -1,0 +1,25 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Sandim R15",
+    "theme_version": "1.0.0",
+    "theme_author": "CRdevs",
+    "theme_documentation_url": "https://www.instagram.com/caio.riguess/",
+    "theme_support_url": "https://www.instagram.com/caio.riguess/"
+  },
+  {
+    "name": "Loja",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Ícone da aba (favicon)", "info": "Sem imagem, usa a moto do logo." },
+      { "type": "text", "id": "whatsapp_numero", "label": "WhatsApp (só números, com DDI)", "default": "5532991042903" },
+      { "type": "text", "id": "whatsapp_exibido", "label": "WhatsApp como aparece no site", "default": "+55 (32) 9 9104-2903" },
+      { "type": "text", "id": "parcela_coef", "label": "Coeficiente da parcela em 12x", "default": "0.101326", "info": "Valor de cada parcela = preço × coeficiente. 0.101326 reproduz o parcelamento atual da loja." }
+    ]
+  },
+  {
+    "name": "Tela de carregamento",
+    "settings": [
+      { "type": "checkbox", "id": "loader_ativo", "label": "Mostrar a moto correndo ao abrir o site", "default": true, "info": "Aparece uma vez por visita e some quando a página termina de carregar." }
+    ]
+  }
+]

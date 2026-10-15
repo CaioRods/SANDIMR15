@@ -1,0 +1,21 @@
+{
+  "type": "footer",
+  "name": "Rodapé",
+  "sections": {
+    "rodape": {
+      "type": "footer",
+      "settings": {
+        "sac_titulo": "Atendimento ao cliente",
+        "sac_texto": "SAC (Serviço de Atendimento ao Consumidor)",
+        "email": "sandimcomercial@gmail.com",
+        "menu": "footer",
+        "news_titulo": "Nossa newsletter",
+        "news_texto": "Assine nossa newsletter e receba as melhores ofertas DE GRAÇA!",
+        "mostrar_pagamentos": true,
+        "aviso": "<p>Preços e condições de pagamento exclusivos para compras neste site oficial, podendo variar com o tempo da oferta. Evite comprar produtos mais baratos ou de outras lojas, pois você pode estar sendo enganado(a) por um golpista. Caso você compre os mesmos produtos em outras lojas, não nos responsabilizamos por quaisquer problemas.</p>",
+        "direitos": "Sandim R15"
+      }
+    }
+  },
+  "order": ["rodape"]
+}

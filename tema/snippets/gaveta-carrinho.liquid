@@ -1,0 +1,20 @@
+{%- comment -%}
+  Gaveta do carrinho. O conteúdo é redesenhado pelo sandim.js com /cart.js depois de cada alteração.
+{%- endcomment -%}
+<aside class="gaveta carrinho" id="carrinho" aria-label="Carrinho" hidden>
+  <div class="gav-topo">
+    <h2>Seu carrinho</h2>
+    <button class="icon-btn" type="button" data-fechar aria-label="Fechar carrinho">{% render 'icone', nome: 'fechar' %}</button>
+  </div>
+  <div class="gav-corpo" id="carrinho-itens">
+    {%- if cart.item_count == 0 -%}
+      <p class="vazio">Seu carrinho está vazio.</p>
+    {%- endif -%}
+  </div>
+  <div class="gav-base" id="carrinho-base"{% if cart.item_count == 0 %} hidden{% endif %}>
+    <div class="tot"><span>Subtotal</span><b id="carrinho-total">{{ cart.total_price | money }}</b></div>
+    <p class="mini" id="carrinho-parc">Frete grátis · ou 12x de {{ cart.total_price | times: settings.parcela_coef | money }}</p>
+    <a class="btn cheio" href="/checkout" id="finalizar">Finalizar compra</a>
+    <a class="mini link-carrinho" href="{{ routes.cart_url }}">Ver carrinho completo</a>
+  </div>
+</aside>

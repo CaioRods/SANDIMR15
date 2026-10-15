@@ -1,0 +1,16 @@
+{
+  "general": {
+    "password_page": {
+      "login_form_heading": "Entrar na loja com senha",
+      "login_password_button": "Entrar com senha",
+      "login_form_password_label": "Senha",
+      "login_form_password_placeholder": "Sua senha",
+      "login_form_error": "Senha incorreta"
+    }
+  },
+  "sandim": {
+    "carrinho_vazio": "Seu carrinho está vazio.",
+    "adicionado": "Adicionado ao carrinho",
+    "esgotado": "Esgotado"
+  }
+}

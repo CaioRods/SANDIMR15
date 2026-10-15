@@ -1,0 +1,37 @@
+<div class="beneficios">
+  {%- for block in section.blocks -%}
+    <div {{ block.shopify_attributes }}>
+      {% render 'icone', nome: block.settings.icone %}
+      <p><b>{{ block.settings.titulo }}</b><span>{{ block.settings.texto }}</span></p>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Benefícios",
+  "blocks": [
+    {
+      "type": "beneficio",
+      "name": "Benefício",
+      "settings": [
+        { "type": "select", "id": "icone", "label": "Ícone", "default": "caminhao", "options": [
+          { "value": "caminhao", "label": "Caminhão" }, { "value": "cartao", "label": "Cartão" },
+          { "value": "escudo", "label": "Escudo" }, { "value": "video", "label": "Vídeo" } ] },
+        { "type": "text", "id": "titulo", "label": "Título", "default": "Frete grátis" },
+        { "type": "text", "id": "texto", "label": "Texto", "default": "Para todo o Brasil" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{
+    "name": "Benefícios",
+    "blocks": [
+      { "type": "beneficio", "settings": { "icone": "caminhao", "titulo": "Frete grátis", "texto": "Para todo o Brasil" } },
+      { "type": "beneficio", "settings": { "icone": "cartao", "titulo": "Até 12x", "texto": "No cartão de crédito" } },
+      { "type": "beneficio", "settings": { "icone": "escudo", "titulo": "Compra segura", "texto": "Checkout da Shopify" } },
+      { "type": "beneficio", "settings": { "icone": "video", "titulo": "Testado no canal", "texto": "Quem vende, usa" } }
+    ]
+  }]
+}
+{% endschema %}

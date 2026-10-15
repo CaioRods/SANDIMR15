@@ -1,0 +1,17 @@
+<section class="col-topo"><div class="wrap"><h1>Categorias</h1></div></section>
+<div class="wrap secao">
+  <div class="categorias lista">
+    {%- for col in collections -%}
+      {%- if col.products_count > 0 -%}
+        <a class="cat" href="{{ col.url }}">
+          <div class="ft">{%- assign foto = col.featured_image | default: col.products.first.featured_media.preview_image -%}{%- if foto -%}{{ foto | image_url: width: 400 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}</div>
+          <div class="nm"><b>{{ col.title | escape }}</b><small>{{ col.products_count }} itens</small></div>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Lista de coleções", "settings": [] }
+{% endschema %}

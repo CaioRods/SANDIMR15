@@ -1,0 +1,28 @@
+<div class="wrap pagina conta">
+  <p><a href="{{ routes.account_url }}">← Minha conta</a></p>
+  <h1>Endereços</h1>
+  {%- paginate customer.addresses by 10 -%}
+    {%- for address in customer.addresses -%}
+      <div class="contato-box">
+        {{ address | format_address }}
+        {%- if address == customer.default_address -%}<p class="mini">Endereço principal</p>{%- endif -%}
+        {%- form 'customer_address', address -%}<input type="hidden" name="_method" value="delete"><button class="btn claro" type="submit">Excluir</button>{%- endform -%}
+      </div>
+    {%- endfor -%}
+  {%- endpaginate -%}
+  <h2>Novo endereço</h2>
+  {%- form 'customer_address', customer.new_address -%}
+    {{ form.errors | default_errors }}
+    <label for="n-nome">Nome</label><input id="n-nome" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+    <label for="n-sob">Sobrenome</label><input id="n-sob" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+    <label for="n-end">Endereço</label><input id="n-end" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1">
+    <label for="n-comp">Complemento</label><input id="n-comp" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2">
+    <label for="n-cid">Cidade</label><input id="n-cid" name="address[city]" value="{{ form.city }}" autocomplete="address-level2">
+    <label for="n-pais">País</label><select id="n-pais" name="address[country]" data-default="{{ form.country }}">{{ all_country_option_tags }}</select>
+    <label for="n-uf">Estado</label><input id="n-uf" name="address[province]" value="{{ form.province }}" autocomplete="address-level1">
+    <label for="n-cep">CEP</label><input id="n-cep" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code">
+    <label for="n-tel">Telefone</label><input id="n-tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel">
+    <label class="check"><input type="checkbox" name="address[default]" value="1"> Usar como endereço principal</label>
+    <button class="btn cheio" type="submit">Salvar endereço</button>
+  {%- endform -%}
+</div>
