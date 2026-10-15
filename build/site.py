@@ -7,7 +7,6 @@ rep = {
     '{{SIMBOLOS}}': open('build/simbolos.html', encoding='utf8').read(),
     '{{FILTROS}}': LS.FILTROS, '{{CENA}}': LS.cenario(), '{{RUSH}}': LS.rush(),
     '{{RIDER}}': LS.rider(LS.moto_svg()),
-    '{{MOTO_COMPLETA}}': LS.moto_svg('url(#sg-preto)', 'url(#sg-azul)', 'url(#sg-preto)').replace('sl-roda', 'hero-roda'),
 }
 import time
 ver = str(int(time.time()))
@@ -24,4 +23,5 @@ for k, v in rep.items():
     assert k in src, k
     src = src.replace(k, v)
 open('site/index.html', 'w', encoding='utf8').write(src)
+import runpy; runpy.run_path('build/leve2.py')
 print('site ok', len(src) // 1024, 'KB')

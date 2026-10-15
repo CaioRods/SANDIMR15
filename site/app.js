@@ -36,6 +36,50 @@
 
   /* ---------- loading ---------- */
   var loader = document.getElementById('sandim-loader'), loaderAcabou = false;
+  // moto do banner = moto do carregamento com as cores do site (lida antes do carregamento sair da página)
+  var MOTO = (function () {
+    var s = loader && loader.querySelector('.sl-moto'); if (!s) return '';
+    return s.outerHTML.replace(/sl-roda/g, 'hero-roda').replace(/url\(#sg-branco\)/g, 'url(#sg-preto)').replace(/url\(#sg-azulc\)/g, 'url(#sg-azul)');
+  })();
+  // moto do banner = moto do carregamento com as cores do site (lida antes do carregamento sair da página)
+  var MOTO = (function () {
+    var s = loader && loader.querySelector('.sl-moto'); if (!s) return '';
+    return s.outerHTML.replace(/sl-roda/g, 'hero-roda').replace(/url\(#sg-branco\)/g, 'url(#sg-preto)').replace(/url\(#sg-azulc\)/g, 'url(#sg-azul)');
+  })();
+  // moto do banner = moto do carregamento com as cores do site (lida antes do carregamento sair da página)
+  var MOTO = (function () {
+    var s = loader && loader.querySelector('.sl-moto'); if (!s) return '';
+    return s.outerHTML.replace(/sl-roda/g, 'hero-roda').replace(/url\(#sg-branco\)/g, 'url(#sg-preto)').replace(/url\(#sg-azulc\)/g, 'url(#sg-azul)');
+  })();
+  // moto do banner = moto do carregamento com as cores do site (lida antes do carregamento sair da página)
+  var MOTO = (function () {
+    var s = loader && loader.querySelector('.sl-moto'); if (!s) return '';
+    return s.outerHTML.replace(/sl-roda/g, 'hero-roda').replace(/url\(#sg-branco\)/g, 'url(#sg-preto)').replace(/url\(#sg-azulc\)/g, 'url(#sg-azul)');
+  })();
+  // saída do carregamento: a borda esquerda da tela segue o deslocamento da moto, em onda
+  function ondaSaida(el) {
+    return new Promise(function (fim) {
+      var rider = el.querySelector('.sl-rider'); if (!rider) { fim(); return; }
+      var W = el.clientWidth, H = el.clientHeight, N = 36, x0 = rider.getBoundingClientRect().left;
+      var fase = 0, amp = 0, ult = performance.now(), ini = ult, antes = 0;
+      (function quadro(t) {
+        var dt = Math.min(.05, Math.max(.001, (t - ult) / 1000)); ult = t;
+        var anda = Math.max(0, rider.getBoundingClientRect().left - x0);  // quanto a moto já andou
+        var vel = (anda - antes) / dt; antes = anda;                         // px/s
+        amp += (Math.min(70, 6 + vel * .035) - amp) * Math.min(1, dt * 8);  // onda cresce com a velocidade
+        fase += dt * (4 + vel * .004);
+        var borda = anda * 1.12 - amp, pts = [];
+        for (var i = 0; i <= N; i++) {
+          var k = i / N, y = k * H;
+          var x = borda + amp * Math.sin(k * Math.PI * 2.4 + fase) + amp * .35 * Math.sin(k * Math.PI * 5.2 - fase * 1.4);
+          pts.push(x.toFixed(1) + 'px ' + y.toFixed(1) + 'px');
+        }
+        el.style.clipPath = 'polygon(' + pts.join(',') + ',' + (W + 400) + 'px ' + H + 'px,' + (W + 400) + 'px 0px)';
+        if (borda - amp * 1.4 > W || t - ini > 3000) { fim(); return; }
+        requestAnimationFrame(quadro);
+      })(ult);
+    });
+  }
   var loaderPronto = (function () {
     var visto = false;
     try { visto = !!sessionStorage.getItem('sandimLoader'); sessionStorage.setItem('sandimLoader', '1'); } catch (e) {}
@@ -52,9 +96,10 @@
     }).then(function () {
       loader.classList.replace('is-idle', 'is-exit'); spd(1);
       setTimeout(function () { spd(2); }, 120); setTimeout(function () { spd(3); }, 280);
-      return wait(800);
+      loaderAcabou = true; if (window.Cinema) Cinema.heroPlay(); // o site já entra animando atrás da onda
+      return ondaSaida(loader);
     }).then(function () {
-      loader.classList.add('is-done'); loaderAcabou = true; if (window.Cinema) Cinema.heroPlay();
+      loader.classList.add('is-done');
       setTimeout(function () { loader.remove(); }, 500);
     });
     return pronto;
@@ -234,7 +279,7 @@
     return r15 && r3 ? ' m-ambos' : r15 ? ' m-r15' : r3 ? ' m-r3' : ' m-outra';
   }
   function card(p) {
-    return '<a class="card' + classeMoto(p) + (p.ok ? '' : ' esgotado') + '" href="#/p/' + p.h + '"><div class="ft"><img loading="lazy" decoding="async" src="' + img(p.img[0], 500) + '" alt="' + esc(p.t) + '">' +
+    return '<a class="card' + classeMoto(p) + (p.ok ? '' : ' esgotado') + '" href="#/p/' + p.h + '"><div class="ft"><img loading="lazy" decoding="async" src="' + img(p.img[0], 500) + '" srcset="' + img(p.img[0], 360) + ' 360w, ' + img(p.img[0], 500) + ' 500w" sizes="(max-width:720px) 46vw, 240px" srcset="' + img(p.img[0], 360) + ' 360w, ' + img(p.img[0], 500) + ' 500w" sizes="(max-width:720px) 46vw, 240px" srcset="' + img(p.img[0], 360) + ' 360w, ' + img(p.img[0], 500) + ' 500w" sizes="(max-width:720px) 46vw, 240px" srcset="' + img(p.img[0], 360) + ' 360w, ' + img(p.img[0], 500) + ' 500w" sizes="(max-width:720px) 46vw, 240px" alt="' + esc(p.t) + '">' +
       (p.img[1] && p.ok ? '<img class="alt" loading="lazy" decoding="async" src="' + img(p.img[1], 500) + '" alt="">' : '') +
       '<div class="tags">' + p.moto.map(function (m) { return '<span class="selo ' + m + '">' + (m === 'SBM' ? 'SBM 250s' : m) + '</span>'; }).join('') + '</div>' +
       (p.ok ? '<span class="ver-prod">Ver produto<i aria-hidden="true">→</i></span>' : '<span class="sem-estoque">Sem estoque</span>') + '</div>' +
@@ -309,7 +354,7 @@
   function home() {
     var maisVend = daColecao('mais-vendidos');
     var conta = function (m) { return D.produtos.filter(function (p) { return p.moto.indexOf(m) > -1; }).length; };
-    var moto = $('#moto-completa') ? $('#moto-completa').innerHTML : motoSvg('url(#sg-branco)', 'url(#sg-azulc)');
+    var moto = MOTO || motoSvg('url(#sg-branco)', 'url(#sg-azulc)');
     var dest = daColecao('escapamentos')[0] || maisVend[0];
     var tamanhos = ['g', '', '', '', '', 'l', '', ''];
     var mosaico = CATS.slice(2).map(function (c, k) {

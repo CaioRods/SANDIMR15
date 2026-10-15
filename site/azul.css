@@ -348,3 +348,16 @@ body::before{background:radial-gradient(900px 520px at 90% -8%,rgba(30,167,255,.
 .mos.g b,.mos.g small{position:relative;z-index:1;max-width:48%;text-shadow:0 2px 10px rgba(0,40,90,.35)}
 .mos.g .ft{width:auto;height:72%;top:50%;right:5%;translate:0 -50%}
 @media (max-width:720px){.mos.g .ft{height:calc(100% - 28px)}}
+
+/* ---------- carregamento: só a moto; ao sair, arrasta a tela em onda ---------- */
+/* só o logo volta (sem barra, número ou legenda) */
+#sandim-loader .sl-bar,#sandim-loader .sl-word::before,#sandim-loader .sl-word::after{display:none}
+#sandim-loader{clip-path:none;transition:visibility 0s linear .05s}
+#sandim-loader.is-done{clip-path:polygon(0 0,0 0,0 0)!important;visibility:hidden}
+#sandim-loader .sl-track{height:clamp(180px,34cqw,300px)}
+#sandim-loader .sl-rider{width:clamp(240px,60cqw,420px)}
+/* arrancada mais longa e suave */
+#sandim-loader.is-exit .sl-rider{animation-duration:1.25s;animation-timing-function:cubic-bezier(.55,0,.9,.45)}
+#sandim-loader.is-exit .sl-tilt{animation-duration:1.25s}
+#sandim-loader.is-exit .sl-road{animation-duration:.12s}
+@media (min-width:721px){#sandim-loader .sl-rider{width:clamp(260px,30cqw,420px)}#sandim-loader .sl-track{height:clamp(170px,22cqw,260px)}}
