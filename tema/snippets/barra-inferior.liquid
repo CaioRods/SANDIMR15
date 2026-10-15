@@ -1,6 +1,6 @@
 <nav class="tabbar" aria-label="Navegação rápida">
   <a href="{{ routes.root_url }}"{% if template.name == 'index' %} class="on" aria-current="page"{% endif %}>{% render 'icone', nome: 'casa' %}<span>Início</span></a>
-  <button type="button" data-abrir="menu">{% render 'icone', nome: 'grade' %}<span>Categorias</span></button>
+  <a href="{{ routes.all_products_collection_url }}"{% if collection.handle == 'all' %} class="on" aria-current="page"{% endif %}>{% render 'icone', nome: 'sacola' %}<span>Produtos</span></a>
   <button type="button" data-buscar>{% render 'icone', nome: 'busca' %}<span>Buscar</span></button>
   <button type="button" data-abrir="carrinho">{% render 'icone', nome: 'carrinho' %}<span>Carrinho</span><b class="badge-n" data-qtd-carrinho{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</b></button>
 </nav>

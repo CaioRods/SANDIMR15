@@ -14,31 +14,41 @@
     ['.garantias', ''], ['.acc', ''], ['.desc-box', ''], ['.rodape-in > div', ''], ['[data-rv]', '']
   ];
   function revela(el) { el.classList.add('rv-in'); if (io) io.unobserve(el); contar(el); }
+  // cascata ordenada: posição na tela define a ordem; o atraso recomeça a cada lote
+  function lote(itens) {
+    itens.sort(function (a, b) { return Math.abs(a.r.top - b.r.top) > 12 ? a.r.top - b.r.top : a.r.left - b.r.left; });
+    itens.forEach(function (x, k) { x.el.style.setProperty('--i', Math.min(k, 8)); revela(x.el); });
+  }
   function scan(raiz) {
     raiz = raiz || document;
     heroPalavras(raiz);
     progressoCarrossel(raiz);
     if (calmo) { $$('[data-contar]', raiz).forEach(function (n) { n.textContent = n.dataset.contar; }); return; }
     if (!io && 'IntersectionObserver' in window) {
-      io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) revela(e.target); }); }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+      io = new IntersectionObserver(function (es) {
+        lote(es.filter(function (e) { return e.isIntersecting; }).map(function (e) { return { el: e.target, r: e.boundingClientRect }; }));
+      }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
     }
-    var altura = window.innerHeight;
+    var altura = window.innerHeight, novos = [], naTela = [];
     ALVOS.forEach(function (par) {
       $$(par[0], raiz).forEach(function (el) {
         if (el.classList.contains('rv')) return;
-        var pai = el.parentElement, irmaos = pai ? Array.prototype.indexOf.call(pai.children, el) : 0;
-        el.style.setProperty('--i', Math.min(irmaos, 8));
         el.classList.add('rv'); if (par[1]) el.classList.add(par[1]);
-        var r = el.getBoundingClientRect();
-        // o que já está na tela entra logo (sem esperar o observador)
-        if (r.top < altura * .92 && r.bottom > 0) requestAnimationFrame(function () { requestAnimationFrame(function () { revela(el); }); });
-        else if (io) io.observe(el);
-        else revela(el);
+        novos.push(el);
       });
     });
+    // mede tudo de uma vez (uma única leitura de layout) e separa o que já está na tela
+    novos.map(function (el) { return { el: el, r: el.getBoundingClientRect() }; }).forEach(function (x) {
+      if (x.r.top < altura * .92 && x.r.bottom > 0) naTela.push(x);
+      else if (io) io.observe(x.el);
+      else revela(x.el);
+    });
+    if (naTela.length) requestAnimationFrame(function () { requestAnimationFrame(function () { lote(naTela); }); });
     // garantia: nada fica invisível se o observador não disparar
     clearTimeout(scan._t);
-    scan._t = setTimeout(function () { $$('.rv:not(.rv-in)').forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight) revela(el); }); }, 1800);
+    scan._t = setTimeout(function () {
+      lote($$('.rv:not(.rv-in)').map(function (el) { return { el: el, r: el.getBoundingClientRect() }; }).filter(function (x) { return x.r.top < window.innerHeight && x.r.bottom > 0; }));
+    }, 1800);
   }
 
   /* ---------- banner: título palavra por palavra ---------- */
@@ -118,10 +128,15 @@
   if (!calmo) window.addEventListener('scroll', function () { if (!tic) { tic = true; requestAnimationFrame(rolagem); } }, { passive: true });
 
   /* ---------- brilho que segue o dedo/mouse nos cards ---------- */
+  var brilho = null;
   document.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse') return;
     var c = e.target.closest && e.target.closest('.card'); if (!c) return;
-    var r = c.getBoundingClientRect();
-    c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    var pend = !!brilho; brilho = { c: c, x: e.clientX, y: e.clientY }; if (pend) return;
+    requestAnimationFrame(function () {
+      var b = brilho; brilho = null; var r = b.c.getBoundingClientRect();
+      b.c.style.setProperty('--mx', (b.x - r.left) + 'px'); b.c.style.setProperty('--my', (b.y - r.top) + 'px');
+    });
   }, { passive: true });
 
   /* ---------- indicador deslizante (menus e filtros) ---------- */

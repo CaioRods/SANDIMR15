@@ -59,7 +59,7 @@ for h, p in prods.items():
         'col': m, 'moto': motos(p, m), 'tipo': p.get('product_type', ''),
         'desc': texto(p.get('body_html')), 'data': p.get('published_at', ''),
     })
-json.dump({'colecoes': cols, 'produtos': out}, open('site/catalogo.json', 'w', encoding='utf8'), ensure_ascii=False)
+json.dump({'colecoes': cols, 'produtos': out}, open('site/catalogo.json', 'w', encoding='utf8'), ensure_ascii=False, separators=(',', ':'))
 from collections import Counter
 print(len(out), 'produtos;', Counter(x for p in out for x in p['moto']))
 print({c: sum(1 for p in out if c in p['col']) for c in cols})

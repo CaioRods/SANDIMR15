@@ -1,0 +1,6 @@
+{
+  "redirects": [{ "source": "/", "destination": "/site/", "permanent": false }],
+  "headers": [
+    { "source": "/site/(.*)\\.(css|js|png|ico|webp|svg)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
+  ]
+}

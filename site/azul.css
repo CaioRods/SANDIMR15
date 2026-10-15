@@ -1,0 +1,318 @@
+/* Sandim R15 · mais azul · CRdevs
+   Faixa do topo, títulos, canal e destaques ganham o azul Sandim; acabamentos mais caprichados.
+   Carregado depois de claro.css. */
+
+:root{
+  --azul-fundo:#EAF5FD;
+  --azul-escuro:#0077B8;
+  --g-azul-forte:linear-gradient(135deg,#22B0FF 0%,#0093E2 45%,#005E9E 100%);
+  --g-noite:radial-gradient(90% 120% at 80% 0%,#163A7A 0%,#0C1D45 45%,#070F26 100%);
+  --brilho-azul:0 18px 40px rgba(0,119,194,.18);
+}
+html{scrollbar-color:#7CC6F2 transparent}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#4CBDFF,#0093E2);border-radius:10px;border:2px solid var(--gelo)}
+::-webkit-scrollbar-track{background:transparent}
+body::before{background:radial-gradient(900px 520px at 90% -8%,rgba(30,167,255,.16),transparent 60%),radial-gradient(700px 480px at -8% 35%,rgba(30,167,255,.09),transparent 60%),radial-gradient(800px 600px at 100% 85%,rgba(30,167,255,.07),transparent 60%)}
+
+/* ---------- faixa do topo: azul ---------- */
+.topline{background:var(--g-azul-forte);color:rgba(255,255,255,.92);border:0;position:relative;overflow:hidden;justify-content:center;align-items:center;text-align:center;padding-left:calc(var(--gut) + .2em)}
+.topline b{color:#fff}
+.topline::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-100%);animation:faixa-brilho 6s ease-in-out infinite;pointer-events:none}
+@keyframes faixa-brilho{60%,100%{transform:translateX(100%)}}
+
+/* ---------- cabeçalho ---------- */
+.hdr-in{border-color:rgba(255,255,255,.95);box-shadow:0 1px 0 rgba(15,23,42,.04),0 12px 34px rgba(0,80,140,.10)}
+.hdr.min .hdr-in{box-shadow:0 1px 0 rgba(0,147,226,.18),0 14px 34px rgba(0,80,140,.14)}
+.busca{background:var(--azul-fundo)}
+.busca:focus-within{box-shadow:0 0 0 4px rgba(0,147,226,.12)}
+.busca button{color:var(--azul)}
+@media (hover:hover){.icon-btn:hover{background:rgba(0,147,226,.1);color:var(--azul)}}
+
+/* ---------- banner ---------- */
+.hero{background:radial-gradient(55% 70% at 72% 50%,#CFE8FB 0%,#E6F2FC 40%,var(--gelo) 75%)}
+.hero .eyebrow{background:#fff;border:1px solid rgba(0,147,226,.22);border-radius:999px;padding:7px 16px 7px 12px;align-self:flex-start;box-shadow:0 6px 18px rgba(0,147,226,.12)}
+.hero .eyebrow::before{width:8px;height:8px;border-radius:50%;background:var(--azul);opacity:1;box-shadow:0 0 0 4px rgba(0,147,226,.18);animation:pulsa 2s ease-in-out infinite}
+@keyframes pulsa{50%{box-shadow:0 0 0 7px rgba(0,147,226,0)}}
+.hero-gigante{-webkit-text-stroke:2px rgba(0,147,226,.28);background:linear-gradient(180deg,rgba(0,147,226,.10),transparent 75%);-webkit-background-clip:text;background-clip:text}
+.hero-palco::before{background:radial-gradient(closest-side,rgba(30,167,255,.30),rgba(30,167,255,.08) 55%,transparent 72%)}
+.hero-chao{background:radial-gradient(closest-side,rgba(0,70,130,.30),transparent)}
+.hero-scroll i{border-color:rgba(0,147,226,.4)}
+@media (max-width:720px){
+  .hero .eyebrow{align-self:center}
+  .ver-todos{padding:6px 12px;font-size:11px}
+}
+
+/* ---------- títulos de seção: traço azul ---------- */
+.sec-head h2{position:relative;padding-bottom:14px}
+.sec-head h2::after{display:block;content:"";position:absolute;left:0;bottom:0;width:56px;height:4px;border-radius:4px;background:var(--g-azul-forte)}
+.canal h2::after{display:none}
+.ver-todos{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;padding:8px 16px;background:var(--azul-fundo);color:var(--azul-escuro);font-family:var(--label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:background .25s,color .25s,box-shadow .25s}
+.ver-todos::after{content:"→";transition:transform .25s}
+.ver-todos:hover{background:var(--g-azul);color:#fff;box-shadow:0 8px 20px rgba(0,134,209,.28)}
+.ver-todos:hover::after{transform:translateX(3px)}
+
+/* ---------- escolha sua máquina ---------- */
+.maq.r15{background:var(--g-azul-forte);box-shadow:0 24px 60px rgba(0,119,194,.34)}
+.maq.r15::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 80% at 85% 20%,rgba(255,255,255,.22),transparent 60%),repeating-linear-gradient(115deg,transparent 0 22px,rgba(255,255,255,.05) 22px 23px)}
+.maq:not(.r15):hover{box-shadow:var(--sombra-2),0 0 0 1.5px rgba(0,147,226,.35)}
+.maq:not(.r15):hover .seta{background:var(--g-azul);color:#fff}
+.maq-outras a{color:var(--azul-escuro);border-bottom-color:rgba(0,147,226,.5)}
+
+/* ---------- cards ---------- */
+.card .preco{color:var(--azul-escuro)}
+.card.esgotado .preco{color:#9AA3B5}
+.card .ft{background:linear-gradient(170deg,#fff 55%,#F0F7FD)}
+@media (hover:hover){
+  .card:hover .ft{box-shadow:0 16px 36px rgba(0,119,194,.16)}
+  .card:hover .nome{color:var(--azul-escuro)}
+  .card .nome{transition:color .25s}
+}
+
+/* ---------- destaque ---------- */
+.destaque .palco{background:radial-gradient(75% 70% at 50% 45%,#fff 62%,#E4F1FC 88%,#D3E9FA 100%);box-shadow:var(--sombra-2),var(--brilho-azul)}
+.destaque .palco::after{content:"";position:absolute;inset:auto 18% 7% 18%;height:9%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,70,130,.18),transparent);pointer-events:none}
+.destaque .preco-g{color:var(--azul-escuro)}
+
+/* ---------- mosaico ---------- */
+.mos .ft{background:radial-gradient(closest-side,#fff 55%,#E6F0FA);border-radius:50%;overflow:hidden}
+.mos .ft img{width:72%;height:72%}
+.mos:hover{box-shadow:var(--sombra-2),0 0 0 1.5px rgba(0,147,226,.3)}
+.mos:hover b{color:var(--azul-escuro)}
+.mos b{transition:color .25s}
+.mos small{display:inline-flex;align-items:center;gap:6px}
+.mos small::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--azul)}
+.mos.g{background:var(--g-azul-forte);border:0;color:#fff;box-shadow:0 20px 50px rgba(0,119,194,.28)}
+.mos.g b,.mos.g:hover b{color:#fff}
+.mos.g small{color:rgba(255,255,255,.85)}
+.mos.g small::before{background:#fff}
+.mos.g .ft{background:#fff;box-shadow:0 0 0 10px rgba(255,255,255,.14),0 30px 60px rgba(0,40,90,.3)}
+
+/* ---------- canal: bloco azul-noite ---------- */
+.canal{background:var(--g-noite);border:0;color:#fff;overflow:hidden;position:relative;isolation:isolate}
+.canal::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(40% 60% at 15% 100%,rgba(30,167,255,.25),transparent 70%),repeating-linear-gradient(115deg,transparent 0 40px,rgba(255,255,255,.025) 40px 41px)}
+.canal .kicker{color:#6CCBFF}
+.canal h2{color:#fff}
+.canal h2 em{background:linear-gradient(180deg,#7FD3FF,#1EA7FF);-webkit-background-clip:text;background-clip:text}
+.canal p{color:rgba(225,236,250,.82)}
+.selos-canal span{background:rgba(255,255,255,.07);border-color:rgba(108,203,255,.28);color:#E3F1FF;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.canal .btn.vidro{background:#fff;color:var(--tinta);border:0;box-shadow:0 10px 30px rgba(30,167,255,.35)}
+.canal .btn.vidro:hover{background:var(--g-azul);color:#fff}
+
+/* ---------- garantias ---------- */
+.garantia-faixa div{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.garantia-faixa div:hover{transform:translateY(-3px);box-shadow:var(--sombra-2),0 0 0 1.5px rgba(0,147,226,.25)}
+.garantia-faixa svg{box-sizing:content-box;padding:12px;border-radius:16px;background:var(--azul-fundo);stroke:var(--azul)}
+
+/* ---------- coleção e produto ---------- */
+.col-topo h1{background:linear-gradient(180deg,var(--tinta) 40%,#123E6B);-webkit-background-clip:text;background-clip:text;color:transparent}
+.precos .preco{color:var(--azul-escuro)}
+.galeria .principal{background:linear-gradient(170deg,#fff 50%,#EEF6FD)}
+.voltar:hover{border-color:rgba(0,147,226,.35)}
+
+/* ---------- rodapé: linha azul no topo ---------- */
+.rodape{position:relative}
+.rodape::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,#1EA7FF 25%,#0093E2 75%,transparent)}
+
+@media (prefers-reduced-motion:reduce){
+  .topline::after,.hero .eyebrow::before{animation:none}
+}
+
+/* ---------- hover dos cards ---------- */
+.card .ver-prod{position:absolute;left:50%;bottom:12px;z-index:2;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:8px 16px;border-radius:999px;background:var(--g-azul);color:#fff;font-family:var(--label);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;box-shadow:0 10px 24px rgba(0,119,194,.35);opacity:0;transform:translate(-50%,14px);transition:opacity .3s,transform .45s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.card .ver-prod i{font-style:normal;transition:transform .3s}
+.card .ft::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%)}
+@media (hover:hover){
+  .card{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .card:hover{transform:translateY(-6px)}
+  .card .ft{transition:box-shadow .45s,outline-color .3s;outline:1.5px solid transparent;outline-offset:-1.5px}
+  .card:hover .ft{outline-color:rgba(0,147,226,.45);box-shadow:0 22px 44px rgba(0,119,194,.20)}
+  .card:hover .ft::before{transform:translateX(120%);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+  .card:hover .ver-prod{opacity:1;transform:translate(-50%,0)}
+  .card:hover .ver-prod i{transform:translateX(3px)}
+  .card .ft .alt{transform:scale(1.08);transition:opacity .45s,transform .9s cubic-bezier(.2,.8,.2,1)}
+  .card:hover .ft .alt{opacity:1;transform:scale(1)}
+  .card:hover .ft img:first-child:not(:only-of-type){opacity:0}
+  .card:hover .preco{letter-spacing:.01em}
+  .card .preco{transition:letter-spacing .3s}
+}
+
+/* ---------- setas da galeria ---------- */
+.foto-seta{position:absolute;top:50%;z-index:3;width:42px;height:42px;margin-top:-21px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:rgba(0,94,158,.85);box-shadow:0 4px 12px rgba(0,80,140,.08);cursor:pointer;transition:transform .2s,background .2s,color .2s,opacity .25s}
+.foto-seta svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.foto-seta.ant{left:12px}
+.foto-seta.prox{right:12px}
+.foto-seta[hidden]{display:none}
+.foto-seta:active{transform:scale(.9);background:rgba(0,147,226,.7);color:#fff}
+@media (hover:hover) and (min-width:721px){
+  .foto-seta{opacity:0}
+  .galeria .principal:hover .foto-seta{opacity:1}
+  .foto-seta:hover{background:rgba(0,147,226,.75);color:#fff;border-color:transparent}
+}
+
+/* ---------- lupa de vidro (computador) ---------- */
+@media (hover:hover) and (min-width:721px){
+  #trilho img{cursor:zoom-in}
+  .lupa-on #trilho img{cursor:zoom-out}
+}
+.lupa{position:fixed;z-index:120;width:230px;height:230px;border-radius:50%;pointer-events:none;padding:8px;box-sizing:border-box;
+  background:linear-gradient(145deg,rgba(255,255,255,.55),rgba(190,225,255,.18) 45%,rgba(255,255,255,.35));
+  -webkit-backdrop-filter:blur(8px) saturate(1.8) brightness(1.06);backdrop-filter:blur(8px) saturate(1.8) brightness(1.06);
+  box-shadow:0 24px 60px rgba(0,40,90,.28),0 6px 16px rgba(0,40,90,.14),inset 0 0 0 1px rgba(255,255,255,.75),inset 0 -6px 14px rgba(0,110,190,.18),inset 0 6px 12px rgba(255,255,255,.7);
+  opacity:0;transform:scale(.6);transition:opacity .22s,transform .35s cubic-bezier(.2,1.3,.4,1)}
+.lupa.on{opacity:1;transform:scale(1)}
+.lupa.on.fora{opacity:0;transform:scale(.85)}
+.lupa i{display:block;width:100%;height:100%;border-radius:50%;background-color:#fff;background-repeat:no-repeat;
+  box-shadow:inset 0 0 0 1px rgba(0,60,120,.12),inset 0 10px 22px rgba(0,30,70,.10),inset 0 -12px 26px rgba(255,255,255,.35)}
+/* brilho de vidro por cima da área ampliada */
+.lupa::before{content:"";position:absolute;inset:8px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(60% 38% at 32% 18%,rgba(255,255,255,.65),rgba(255,255,255,0) 70%),radial-gradient(50% 30% at 70% 92%,rgba(120,200,255,.28),transparent 70%)}
+.lupa::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;padding:2px;
+  background:conic-gradient(from 210deg,rgba(255,255,255,.95),rgba(120,200,255,.55),rgba(255,255,255,.2),rgba(0,147,226,.45),rgba(255,255,255,.95));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+
+/* ---------- visor em tela cheia (celular) ---------- */
+@media (max-width:720px){#trilho img{cursor:zoom-in}}
+.visor{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;isolation:isolate;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);opacity:0;transition:opacity .25s;touch-action:none;user-select:none;-webkit-user-select:none}
+.visor.on{opacity:1}
+.visor::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(80% 60% at 50% 40%,#0F2452,#060E22 70%);opacity:var(--fundo,.96)}
+.visor-topo{display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top) + 12px) 14px 8px 20px;color:#fff;font-family:var(--label);font-weight:700;letter-spacing:.08em}
+.visor-x{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;cursor:pointer}
+.visor-x svg,.visor-seta svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.visor-palco{flex:1;display:grid;place-items:center;overflow:hidden;padding:12px;touch-action:none}
+.visor-palco img{max-width:100%;max-height:100%;border-radius:14px;background:#fff;transform-origin:center;will-change:transform;transform:scale(.92);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.visor.on .visor-palco img{animation:visor-in .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes visor-in{from{transform:scale(.88);opacity:0}}
+.visor.ampliado .visor-palco img{border-radius:0}
+.visor-seta{position:absolute;top:50%;margin-top:-22px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff;cursor:pointer;transition:opacity .2s}
+.visor-seta.ant{left:10px}
+.visor-seta.prox{right:10px}
+.visor.ampliado .visor-seta,.visor.ampliado .visor-dica{opacity:0;pointer-events:none}
+.visor-dica{margin:0;padding:10px 20px calc(env(safe-area-inset-bottom) + 18px);text-align:center;color:rgba(225,236,250,.7);font-size:13px;transition:opacity .2s}
+
+/* ---------- menu: item selecionado sempre legível ---------- */
+.cats a.on,.cats a.on:hover{color:#fff;text-shadow:0 1px 2px rgba(0,60,110,.35)}
+.cats:has(> .ind[style*="width: 0px"]) a.on{color:var(--azul);text-shadow:none}
+
+/* ---------- letreiro R15 / R3 no fundo do catálogo ---------- */
+.marca-fundo{position:fixed;left:0;right:0;top:50%;z-index:-1;text-align:center;pointer-events:none;user-select:none;
+  font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(180px,34vw,520px);line-height:.8;letter-spacing:-.02em;
+  color:transparent;opacity:0;transform:translateY(calc(-50% + 40px)) scale(.96);transition:opacity .5s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.marca-fundo.on{opacity:1;transform:translateY(-50%)}
+.marca-fundo.m-r15{-webkit-text-stroke:2.5px rgba(30,167,255,.42)}
+.marca-fundo.m-r3{-webkit-text-stroke:2.5px rgba(52,57,66,.30)}
+@media (max-width:720px){
+  .marca-fundo{font-size:62vw;-webkit-text-stroke-width:1.5px}
+}
+
+/* ---------- desempenho (mesmo visual) ---------- */
+/* 119 cards com will-change viravam 119 camadas na GPU: só promove no hover */
+.card{will-change:auto}
+@media (hover:hover){.card:hover{will-change:transform}}
+/* rodapé fora da tela não é desenhado até chegar perto */
+.rodape{content-visibility:auto;contain-intrinsic-size:auto 560px}
+@media (prefers-reduced-motion:reduce){.marca-fundo{transition:none}}
+
+/* ---------- faixa do topo: "Frete grátis" exatamente no centro ---------- */
+.topline{display:grid;grid-template-columns:1fr auto 1fr;column-gap:10px;padding-inline:var(--gut)}
+.topline>span:first-child{grid-column:2;padding-left:.2em}
+.topline .dot{display:none}
+.topline>span:last-child:not(:first-child){grid-column:3;justify-self:start}
+.topline>span:last-child:not(:first-child)::before{content:"·";margin-right:10px;opacity:.6}
+
+/* ---------- tela de carregamento: grid de largada ---------- */
+#sandim-loader{background:#0A1430;--sl-line:rgba(255,255,255,.14);
+  clip-path:polygon(-10% 0,110% 0,100% 100%,-20% 100%);opacity:1!important;
+  transition:clip-path .7s cubic-bezier(.7,0,.25,1),visibility 0s linear .7s}
+#sandim-loader.is-done{clip-path:polygon(110% 0,110% 0,100% 100%,100% 100%)}
+#sandim-loader .sl-scene,#sandim-loader .sl-rush,#sandim-loader .sl-lines{display:none}
+#sandim-loader .sl-bike{filter:none!important}
+/* pista: horizonte fino + faixas brancas nítidas */
+#sandim-loader .sl-road{height:2px;bottom:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 28px,transparent 28px 64px)}
+#sandim-loader .sl-track::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:1px;background:rgba(255,255,255,.08)}
+#sandim-loader .sl-rider::after{content:"";position:absolute;left:12%;right:10%;bottom:-3px;height:8px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent)}
+/* shift light: 10 segmentos acendendo como o conta-giros */
+#sandim-loader .sl-bar{width:min(240px,64%);height:6px;transform:none;background:rgba(255,255,255,.10);
+  -webkit-mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 3px),transparent calc(10% - 3px) 10%);mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 3px),transparent calc(10% - 3px) 10%)}
+#sandim-loader .sl-bar i{background:linear-gradient(90deg,#fff 0,#fff 50%,#7FD3FF 70%,#1EA7FF 85%,#0093E2 100%);background-size:240px 100%}
+#sandim-loader .sl-word{gap:14px}
+#sandim-loader .sl-word::after{content:"Acessórios para Yamaha R15 e R3";font-family:var(--label);font-weight:600;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:rgba(225,236,250,.45);white-space:nowrap;padding-left:.32em}
+@media (prefers-reduced-motion:reduce){#sandim-loader{transition:opacity .3s}#sandim-loader.is-done{opacity:0!important}}
+/* o banner da home sobe por baixo do cabeçalho: a faixa do topo fica por cima dele */
+.topline{z-index:3}
+
+/* ---------- banners da loja ---------- */
+.banners{position:relative;max-width:1240px;margin:28px auto 0;padding-inline:var(--gut)}
+.bn-trilho{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:24px;box-shadow:var(--sombra-2),var(--brilho-azul);background:#0A1430}
+.bn-trilho::-webkit-scrollbar{display:none}
+.bn-slide{position:relative;flex:0 0 100%;scroll-snap-align:start}
+.bn-slide picture,.bn-slide img{display:block;width:100%;height:auto}
+.bn-slide img{aspect-ratio:3/1;object-fit:cover}
+.bn-link{display:block}
+.banners .bn-seta{top:calc(50% - 10px)}
+.banners .bn-seta.ant{left:calc(var(--gut) + 14px)}
+.banners .bn-seta.prox{right:calc(var(--gut) + 14px)}
+@media (hover:hover) and (min-width:721px){.banners:hover .bn-seta{opacity:1}}
+.bn-pontos{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.bn-pontos button{width:8px;height:8px;padding:0;border:0;border-radius:4px;background:rgba(15,23,42,.18);cursor:pointer;transition:width .3s,background .3s}
+.bn-pontos button.on{width:26px;background:var(--azul)}
+/* pontos nos produtos do banner */
+.bn-ponto{position:absolute;left:var(--x);top:var(--y);z-index:2;transform:translate(-50%,-50%);display:block;width:30px;height:30px;color:var(--tinta);cursor:pointer}
+.bn-ponto>i{position:absolute;inset:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(0,147,226,.9),0 4px 12px rgba(0,0,0,.35)}
+.bn-ponto>i::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid rgba(255,255,255,.8);animation:bn-pulso 2.2s cubic-bezier(.2,.8,.2,1) infinite}
+.bn-ponto.esgotado>i{background:#C9D0DB;box-shadow:0 0 0 3px rgba(18,21,28,.75),0 4px 12px rgba(0,0,0,.35)}
+.bn-ponto.esgotado>i::after{display:none}
+@keyframes bn-pulso{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.bn-tag{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,6px);display:flex;flex-direction:column;align-items:center;gap:1px;white-space:nowrap;padding:8px 14px;border-radius:14px;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 26px rgba(0,30,70,.28);font-size:13px;font-weight:700;color:var(--azul-escuro);opacity:0;pointer-events:none;transition:opacity .25s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.bn-tag b{font-family:var(--display);font-style:italic;font-size:14px;color:var(--tinta)}
+.bn-tag em{font-style:normal;font-family:var(--label);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(18,21,28,.86);border-radius:999px;padding:2px 10px;margin-top:3px}
+.bn-ponto:hover .bn-tag,.bn-ponto:focus-visible .bn-tag,.bn-ponto.aberto .bn-tag{opacity:1;transform:translate(-50%,0)}
+@media (max-width:720px){
+  .banners{margin-top:18px}
+  .bn-trilho{border-radius:20px}
+  .bn-slide img{aspect-ratio:477/700}
+  .bn-ponto{left:var(--xm);top:var(--ym)}
+  .banners .bn-seta{display:none}
+}
+
+/* ---------- página de produto esgotado ---------- */
+.esgotado-pag{text-align:center;padding-block:56px 10px}
+.esgotado-pag .sem-estoque{position:static;transform:none;display:inline-block;margin-bottom:14px}
+
+/* ---------- carregamento: acabamento ---------- */
+@property --sl-p{syntax:'<integer>';inherits:false;initial-value:0}
+/* textura de granulado + vinheta: tira o aspecto "liso de computador" */
+#sandim-loader::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% 45%,transparent 40%,rgba(0,0,0,.45) 100%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.5;mix-blend-mode:soft-light}
+#sandim-loader .sl-track,#sandim-loader .sl-word{position:relative;z-index:1}
+/* moto chega e "assenta" na suspensão */
+#sandim-loader.is-idle .sl-tilt{animation:sl-assenta .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes sl-assenta{0%{transform:rotate(1.6deg)}100%{transform:none}}
+/* logo se revela quando a moto para */
+#sandim-loader .sl-word svg{clip-path:inset(0 100% 0 0);transition:clip-path .7s cubic-bezier(.7,0,.2,1)}
+#sandim-loader.is-idle .sl-word svg,#sandim-loader.is-exit .sl-word svg{clip-path:inset(0 0 0 0)}
+#sandim-loader .sl-word::after{opacity:0;transform:translateY(6px);transition:opacity .6s .35s,transform .6s .35s}
+#sandim-loader.is-idle .sl-word::after,#sandim-loader.is-exit .sl-word::after{opacity:1;transform:none}
+/* leitura numérica ao lado das luzes, como no painel */
+#sandim-loader .sl-word::before{order:3;counter-reset:p var(--sl-p);content:counter(p);font-family:var(--display);font-style:italic;font-weight:800;font-size:13px;letter-spacing:.06em;color:#7FD3FF;font-variant-numeric:tabular-nums;margin-top:-6px}
+#sandim-loader .sl-word::after{order:4}
+#sandim-loader.is-enter .sl-word::before{animation:sl-p1 1s ease-out forwards}
+#sandim-loader.is-idle .sl-word::before,#sandim-loader.is-exit .sl-word::before{animation:sl-p2 var(--sl-idle,1.4s) linear forwards}
+@keyframes sl-p1{from{--sl-p:0}to{--sl-p:35}}
+@keyframes sl-p2{from{--sl-p:35}to{--sl-p:100}}
+@media (prefers-reduced-motion:reduce){#sandim-loader .sl-word svg{clip-path:none}}
+
+/* ---------- WhatsApp: o verde cobre a tela antes de abrir ---------- */
+.whats-onda{position:fixed;inset:0;z-index:400;display:grid;place-items:center;pointer-events:none;overflow:hidden}
+.whats-bola{position:absolute;border-radius:50%;background:radial-gradient(closest-side,#2CC764,#1FAF55);transform-origin:center;will-change:transform}
+.whats-onda-in{position:relative}
+.whats-onda-in{display:flex;flex-direction:column;align-items:center;gap:16px;color:#fff;opacity:0;transform:scale(.8);transition:opacity .35s,transform .5s cubic-bezier(.2,1.4,.4,1)}
+.whats-onda.cheia .whats-onda-in{opacity:1;transform:none}
+.whats-onda svg{width:72px;height:72px;fill:#fff}
+.whats-onda span{font-family:var(--label);font-weight:700;font-size:15px;letter-spacing:.16em;text-transform:uppercase}
+
+/* logo oficial do WhatsApp no botão */
+.whats svg{fill:#fff;stroke:none;width:28px;height:28px}
+@media (max-width:720px){.whats svg{width:25px;height:25px}}

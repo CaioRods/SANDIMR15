@@ -200,7 +200,6 @@
     abrir('#menu');
   }
   $('#abrir-menu').addEventListener('click', abrirMenu);
-  $('#tab-cats').addEventListener('click', abrirMenu);
   $('#tab-cart').addEventListener('click', abrirCarrinho);
   function alternaBusca(abrirSempre) {
     var h = $('#topo'), aberta = abrirSempre || !h.classList.contains('busca-aberta');
@@ -213,8 +212,19 @@
   var hdr = $('#topo');
   function altHdr() { document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px'); }
   var checaBuy = null;
-  window.addEventListener('scroll', function () { hdr.classList.toggle('min', window.scrollY > 80); altHdr(); if (checaBuy) checaBuy(); }, { passive: true });
+  var rolou = false;
+  window.addEventListener('scroll', function () {
+    if (rolou) return; rolou = true;
+    requestAnimationFrame(function () {
+      rolou = false;
+      var min = window.scrollY > 80;
+      if (min !== hdr.classList.contains('min')) { hdr.classList.toggle('min', min); altHdr(); }
+      if (checaBuy) checaBuy();
+    });
+  }, { passive: true });
+  hdr.addEventListener('transitionend', function (e) { if (e.target === hdr || e.target.parentNode === hdr) altHdr(); });
   window.addEventListener('resize', altHdr); altHdr();
+  if (window.ResizeObserver) new ResizeObserver(function () { var on = $('#cats a.on'); if (on && on.offsetWidth) Cinema.indicador($('#cats'), on); }).observe($('#cats'));
   var tt;
   function toast(m) { var t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(function () { t.classList.remove('on'); }, 2600); }
 
@@ -224,10 +234,10 @@
     return r15 && r3 ? ' m-ambos' : r15 ? ' m-r15' : r3 ? ' m-r3' : ' m-outra';
   }
   function card(p) {
-    return '<a class="card' + classeMoto(p) + (p.ok ? '' : ' esgotado') + '" href="#/p/' + p.h + '"><div class="ft"><img loading="lazy" src="' + img(p.img[0], 500) + '" alt="' + esc(p.t) + '">' +
-      (p.img[1] && p.ok ? '<img class="alt" loading="lazy" src="' + img(p.img[1], 500) + '" alt="">' : '') +
+    return '<a class="card' + classeMoto(p) + (p.ok ? '' : ' esgotado') + '" href="#/p/' + p.h + '"><div class="ft"><img loading="lazy" decoding="async" src="' + img(p.img[0], 500) + '" alt="' + esc(p.t) + '">' +
+      (p.img[1] && p.ok ? '<img class="alt" loading="lazy" decoding="async" src="' + img(p.img[1], 500) + '" alt="">' : '') +
       '<div class="tags">' + p.moto.map(function (m) { return '<span class="selo ' + m + '">' + (m === 'SBM' ? 'SBM 250s' : m) + '</span>'; }).join('') + '</div>' +
-      (p.ok ? '' : '<span class="sem-estoque">Sem estoque</span>') + '</div>' +
+      (p.ok ? '<span class="ver-prod">Ver produto<i aria-hidden="true">→</i></span>' : '<span class="sem-estoque">Sem estoque</span>') + '</div>' +
       '<div class="info">' + (p.anos ? '<span class="ano">' + p.anos + '</span>' : '') + '<span class="nome">' + esc(p.t) + '</span>' +
       '<span class="preco">' + (p.varia ? '<small>a partir de </small>' : '') + brl(p.preco) + '</span>' +
       '<span class="parc">' + (p.ok ? '12x de ' + brl(p.preco * COEF_12X) : 'Avise-me quando chegar') + '</span></div></a>';
@@ -246,6 +256,54 @@
   }
   var cena = '<div class="sl-scene"><i class="sl-mt1"></i><i class="sl-mt2"></i><i class="sl-arv"></i></div>';
   var motoSvg = function (k, b) { return '<svg viewBox="570 18 1050 425" aria-hidden="true"><use href="#lg-moto" x="570" y="18" width="1050" height="425" style="--k:' + k + ';--b:' + b + '"/></svg>'; };
+
+  /* ---------- banners da loja ---------- */
+  // Para trocar: coloque as imagens em site/banners/ e mude pc (3:1, ex. 1800x600) e cel (ex. 700x1027).
+  // link: para onde o banner leva ('' = sem link). pontos: [handle do produto, nome, x%, y% no computador, x%, y% no celular]
+  var LOJA = '//sandimr15.store/cdn/shop/files/';
+  var BANNERS = [
+    { pc: LOJA + 'Banner_01_1800x.png?v=1744927293', cel: LOJA + 'Banner_Mes_pais_-_Mobile_700x.png?v=1744927292', link: '#/c/mais-vendidos', alt: 'Potência no estilo, adrenalina nos detalhes', pontos: [] },
+    { pc: LOJA + 'Banner_02_1800x.png?v=1744927293', cel: LOJA + 'Banner_Mes_pais_-_Mobile_1_700x.png?v=1744927293', link: '', alt: 'Frete grátis para todo o Brasil', pontos: [
+      ['bico-de-pato', 'Bico de Pato', 15, 57, 13, 64],
+      ['amortecedor-de-direcao', 'Amortecedor de Direção', 31, 52, 40, 65],
+      ['bolha-esportiva', 'Bolha Esportiva', 24, 86, 30, 78]
+    ] }
+  ];
+  function ponto(pt) {
+    var p = porH[pt[0]], ok = p && p.ok;
+    var tag = ok ? 'a href="#/p/' + p.h + '"' : 'span';
+    return '<' + tag + ' class="bn-ponto' + (ok ? '' : ' esgotado') + '" style="--x:' + pt[2] + '%;--y:' + pt[3] + '%;--xm:' + pt[4] + '%;--ym:' + pt[5] + '%">' +
+      '<i aria-hidden="true"></i><span class="bn-tag"><b>' + esc(pt[1]) + '</b>' + (ok ? brl(p.preco) : '<em>Esgotado</em>') + '</span></' + tag.split(' ')[0] + '>';
+  }
+  function banners() {
+    return '<section class="banners" aria-label="Destaques da loja"><div class="bn-trilho" id="bn-trilho">' + BANNERS.map(function (b, k) {
+      var foto = '<picture><source media="(max-width:720px)" srcset="' + b.cel + '">' +
+        '<img src="' + b.pc + '" alt="' + esc(b.alt) + '"' + (k ? ' loading="lazy"' : '') + ' decoding="async"></picture>';
+      return '<div class="bn-slide">' + (b.link ? '<a class="bn-link" href="' + b.link + '">' + foto + '</a>' : foto) + b.pontos.map(ponto).join('') + '</div>';
+    }).join('') + '</div>' +
+      '<button class="foto-seta ant bn-seta" type="button" data-bn="-1" aria-label="Banner anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+      '<button class="foto-seta prox bn-seta" type="button" data-bn="1" aria-label="Próximo banner"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' +
+      '<div class="bn-pontos" id="bn-pontos">' + BANNERS.map(function (b, k) { return '<button type="button" data-bni="' + k + '" aria-label="Banner ' + (k + 1) + '"' + (k ? '' : ' class="on"') + '></button>'; }).join('') + '</div></section>';
+  }
+  // carrossel: arrastar, setas, bolinhas e troca automática (pausa ao interagir ou fora da tela)
+  var bnTimer = null;
+  function bnLiga() {
+    var t = $('#bn-trilho'); if (!t) return;
+    var n = t.children.length, atual = function () { return Math.round(t.scrollLeft / Math.max(t.clientWidth, 1)); };
+    var vai = function (i) { t.scrollTo({ left: ((i + n) % n) * t.clientWidth, behavior: 'smooth' }); };
+    t.onscroll = function () { var i = atual(); [].forEach.call($('#bn-pontos').children, function (b, k) { b.classList.toggle('on', k === i); }); };
+    var sec = t.parentNode, visivel = true, parado = false;
+    sec.onclick = function (e) {
+      var a = e.target.closest('[data-bn]'), b = e.target.closest('[data-bni]');
+      if (a) vai(atual() + +a.dataset.bn); if (b) vai(+b.dataset.bni);
+      var esg = e.target.closest('.bn-ponto.esgotado'); if (esg) { esg.classList.toggle('aberto'); }
+    };
+    sec.onpointerenter = function () { parado = true; }; sec.onpointerleave = function () { parado = false; };
+    t.addEventListener('touchstart', function () { parado = true; clearTimeout(t._v); t._v = setTimeout(function () { parado = false; }, 8000); }, { passive: true });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visivel = es[0].isIntersecting; }).observe(sec);
+    clearInterval(bnTimer);
+    bnTimer = setInterval(function () { if (!t.isConnected) { clearInterval(bnTimer); return; } if (visivel && !parado && !document.hidden) vai(atual() + 1); }, 6000);
+  }
 
   /* ---------- páginas ---------- */
   function home() {
@@ -271,6 +329,7 @@
         '<div class="ctas"><a class="btn" href="#/c/acessorios">Ver peças da R15</a><a class="btn vidro" href="#/c/acessorios-r3">Linha R3</a></div>' +
       '</div><div class="hero-palco"><span class="hero-gigante" aria-hidden="true">R15</span><div class="hero-moto moto-parada">' + moto + '</div><div class="hero-chao"></div></div></div>' +
       '<button class="hero-scroll" type="button" data-rolar="maquinas"><i></i>Role</button></section>' +
+      banners() +
 
       '<section class="secao" id="maquinas"><div class="wrap"><div class="sec-head"><div><span class="kicker">Comece por aqui</span><h2>Escolha sua máquina</h2></div></div>' +
       '<div class="maquinas">' +
@@ -307,8 +366,8 @@
   }
 
   function colecao(h, q) {
-    var c = CATS.find(function (x) { return x.h === h; }) || { n: D.colecoes[h] || 'Produtos', d: '' };
-    var base = h === 'busca' ? D.produtos.filter(function (p) { var t = (p.t + ' ' + p.orig).toLowerCase(); return q.toLowerCase().split(/\s+/).every(function (w) { return t.indexOf(w) > -1; }); }) : daColecao(h);
+    var c = CATS.find(function (x) { return x.h === h; }) || (h === 'produtos' ? { n: 'Produtos', d: 'Todos os produtos da loja, em um só lugar.' } : { n: D.colecoes[h] || 'Produtos', d: '' });
+    var base = h === 'produtos' ? D.produtos.filter(function (p) { return p.ok; }).concat(D.produtos.filter(function (p) { return !p.ok; })) : h === 'busca' ? D.produtos.filter(function (p) { var t = (p.t + ' ' + p.orig).toLowerCase(); return q.toLowerCase().split(/\s+/).every(function (w) { return t.indexOf(w) > -1; }); }) : daColecao(h);
     var tit = h === 'busca' ? 'Busca: “' + esc(q) + '”' : (h === 'acessorios' ? 'Linha R15' : h === 'acessorios-r3' ? 'Linha R3' : esc(c.n));
     var fundo = base[0] ? img(base[0].img[0], 600) : '';
     var nav = h === 'busca' ? '' : '<nav class="catalogo-nav" aria-label="Outras categorias">' + CATS.map(function (k) {
@@ -321,7 +380,15 @@
       '</div><label class="ordem" for="ordem"><span class="sr">Ordenar</span><select id="ordem"><option value="rel">Mais vendidos</option><option value="menor">Menor preço</option><option value="maior">Maior preço</option><option value="novo">Mais recentes</option></select></label></div>' +
       '<div class="res-cont" id="res-cont"></div><div class="grade" id="lista"></div><div style="height:56px"></div></div>';
     var moto = 'Todas', ord = 'rel';
+    var marca = document.createElement('span'); marca.className = 'marca-fundo'; marca.setAttribute('aria-hidden', 'true'); app.appendChild(marca);
+    function pintaMarca() {
+      var m = moto !== 'Todas' ? moto : h === 'acessorios' ? 'R15' : h === 'acessorios-r3' ? 'R3' : '';
+      if (marca.dataset.m === m) return;
+      marca.classList.remove('on');
+      setTimeout(function () { marca.textContent = m; marca.dataset.m = m; marca.className = 'marca-fundo m-' + m.toLowerCase() + (m ? ' on' : ''); }, marca.dataset.m ? 220 : 0);
+    }
     function pinta(animar) {
+      pintaMarca();
       var l = base.filter(function (p) { return moto === 'Todas' || p.moto.indexOf(moto) > -1; }).slice();
       if (ord === 'menor') l.sort(function (a, b) { return a.preco - b.preco; });
       if (ord === 'maior') l.sort(function (a, b) { return b.preco - a.preco; });
@@ -347,12 +414,16 @@
 
   function produto(h) {
     var p = porH[h];
-    if (!p) { app.innerHTML = '<div class="wrap pagina"><h1>Produto não encontrado</h1><p><a href="#/" style="color:var(--azul)">Voltar para a loja</a></p></div>'; return; }
+    if (!p) {
+      app.innerHTML = '<div class="wrap pagina esgotado-pag"><span class="sem-estoque">Esgotado</span><h1>Este produto está esgotado</h1><p>Ele saiu do nosso estoque por enquanto. Veja o que temos pronto para envio:</p><p><a class="btn" href="#/c/mais-vendidos">Ver mais vendidos</a></p></div>' + vitrine('Pronto para envio', '', 'mais-vendidos', 8, null, true);
+      return;
+    }
     var v = p.v.find(function (x) { return x.ok; }) || p.v[0], qtd = 1, fotos = p.img.slice();
     var temOpcao = p.op.length && p.v.length > 1;
     var rel = D.produtos.filter(function (x) { return x !== p && x.moto.some(function (m) { return p.moto.indexOf(m) > -1; }) && Object.keys(x.col).some(function (c) { return c in p.col && ['mais-vendidos', 'news', 'ofertas-da-semana', 'acessorios'].indexOf(c) < 0; }); }).slice(0, 8);
     app.innerHTML = '<div class="wrap"><div class="topo-prod"><button class="voltar" type="button" data-voltar><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Voltar</button><div class="migalha"><a href="#/">Início</a> / <a href="#/c/' + (p.moto[0] === 'R3' ? 'acessorios-r3' : 'acessorios') + '">Linha ' + p.moto[0] + '</a> / ' + esc(p.t) + '</div></div>' +
-      '<div class="prod"><div class="galeria"><div class="miniaturas" id="minis"></div><div class="principal"><button class="voltar-foto" type="button" data-voltar aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><span class="foto-cont" id="foto-cont"></span><div class="trilho" id="trilho"></div><div class="pontos" id="pontos"></div></div></div>' +
+      '<div class="prod"><div class="galeria"><div class="miniaturas" id="minis"></div><div class="principal"><button class="voltar-foto" type="button" data-voltar aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><span class="foto-cont" id="foto-cont"></span><div class="trilho" id="trilho"></div><div class="pontos" id="pontos"></div>' +
+      '<button class="foto-seta ant" type="button" data-passo="-1" aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button class="foto-seta prox" type="button" data-passo="1" aria-label="Próxima foto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></div>' +
       '<div class="compra"><div class="selos">' + p.moto.map(function (m) { return '<span class="selo ' + m + '">' + (m === 'SBM' ? 'SBM 250s' : 'Yamaha ' + m) + '</span>'; }).join('') + '<small>Compatibilidade</small></div>' +
       '<h1>' + esc(p.t) + '</h1>' + (p.anos ? '<p class="ano-destaque">Serve nos anos <b>' + p.anos + '</b></p>' : '') + '<div class="precos" id="precos"></div>' +
       (temOpcao ? '<div class="opcao"><h3>' + esc(p.op[0]) + ': <b id="vnome"></b></h3><div class="variantes" id="vars"></div></div>' : '') +
@@ -366,6 +437,7 @@
       [].forEach.call($('#minis').children, function (b, k) { b.classList.toggle('on', k === i); });
       [].forEach.call($('#pontos').children, function (b, k) { b.classList.toggle('on', k === i); });
       $('#foto-cont').textContent = (i + 1) + ' / ' + fotos.length; $('#foto-cont').hidden = fotos.length < 2;
+      document.querySelectorAll('.foto-seta').forEach(function (b) { b.hidden = fotos.length < 2; });
     }
     function pintaFotos(i) {
       var t = $('#trilho');
@@ -391,6 +463,8 @@
     }
     app.onclick = function (e) {
       var f = e.target.closest('[data-f]'); if (f) { pintaFotos(+f.dataset.f); return; }
+      var ps = e.target.closest('[data-passo]');
+      if (ps) { var tr = $('#trilho'), n = fotos.length, i = Math.round(tr.scrollLeft / Math.max(tr.clientWidth, 1)); pintaFotos((i + +ps.dataset.passo + n) % n); return; }
       var b = e.target.closest('[data-v]');
       if (b) { v = p.v[+b.dataset.v]; if (v.img) { var k = fotos.indexOf(v.img); if (k < 0) { fotos.unshift(v.img); k = 0; } pintaFotos(k); } pintaPreco(); return; }
       if (e.target.closest('#menos')) { qtd = Math.max(1, qtd - 1); $('#qtd').value = qtd; }
@@ -456,18 +530,19 @@
     Cinema.indicador($('#cats'), ativo);
     ['#carrinho', '#menu'].forEach(function (s) { $(s).hidden = true; }); $('#veu').hidden = true; document.body.style.overflow = '';
     $('#topo').classList.remove('oculto', 'min', 'busca-aberta'); altHdr();
+    Cinema.indicador($('#cats'), $('#cats a.on'));
     if (r[0] === 'busca' && !q) { app.innerHTML = '<div class="wrap pagina"><h1>Pesquisar</h1><p>Digite o nome da peça na busca do topo.</p></div>'; $('#busca-q').focus(); return; }
     if (r[0] === 'c') colecao(r[1]);
     else if (r[0] === 'p') produto(r[1]);
     else if (r[0] === 'busca') colecao('busca', q);
     else if (r[0] === 'pagina') pagina(r[1]);
-    else app.innerHTML = home();
+    else { app.innerHTML = home(); bnLiga(); }
     document.body.dataset.rota = r[0] || 'home';
-    document.querySelectorAll('.tabbar [data-tab]').forEach(function (t) { t.classList.toggle('on', t.dataset.tab === 'home' && !r[0]); });
+    document.querySelectorAll('.tabbar [data-tab]').forEach(function (t) { t.classList.toggle('on', (t.dataset.tab === 'home' && !r[0]) || (t.dataset.tab === 'produtos' && r[0] === 'c' && r[1] === 'produtos')); });
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     Cinema.scan(app);
     if (!r[0] && loaderAcabou) Cinema.heroPlay();
-    var t = r[0] === 'p' && porH[r[1]] ? porH[r[1]].t + ' · ' : r[0] === 'c' ? ((CATS.find(function (c) { return c.h === r[1]; }) || {}).n || '') + ' · ' : '';
+    var t = r[0] === 'p' && porH[r[1]] ? porH[r[1]].t + ' · ' : r[0] === 'c' ? (r[1] === 'produtos' ? 'Produtos' : ((CATS.find(function (c) { return c.h === r[1]; }) || {}).n || '')) + ' · ' : '';
     document.title = t + 'Sandim R15 Store';
     if (aposDesenhar) { var f = aposDesenhar; aposDesenhar = null; setTimeout(f, 16); }
   }
